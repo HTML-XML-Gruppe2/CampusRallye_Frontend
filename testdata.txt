@@ -1,0 +1,9 @@
+{
+    "_id":"4711",
+    "name":"Bibliothek",
+    "description":"Hier stehen gaaaanz viele Infos",
+    "questions":[ 
+    "question_1":["_id"="1","text"="Frage 1"], 
+    "question_2":["_id"="2","text"="Frage 2"],
+    "question_3":["_id"="3","text"="Frage 3"] ]
+}

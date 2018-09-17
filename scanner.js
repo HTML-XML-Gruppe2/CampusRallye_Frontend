@@ -13,7 +13,7 @@ let opts = {
 
 
 /*  docuement.ready
-    This method is processed for initialization of QR code scanner and camera
+    This method is processed for the initialization of the QR code scanner and camera
 */
 $(document).ready(function () {
     let currentCam = 1;
@@ -128,17 +128,18 @@ function onScan(content){
             cardQuestionsContent += "<b>" + object.questions[i].text + "</b>";
 
             // display answers
-            cardQuestionsContent += "<form action=\"" + object.questions[i].id + "\">";
+            cardQuestionsContent += "<div>";
             for (j in object.questions[i].answers) {
-                cardQuestionsContent += "<input type=\"radio\" name=\"" + object.questions[i].id + "\"";
+                cardQuestionsContent += "<input type=\"radio\" name=\"question" + object.questions[i].id + "\"";
                 cardQuestionsContent += "value=\"" + object.questions[i].answers[j].correct + "\">";
                 cardQuestionsContent += object.questions[i].answers[j].text + "<br>";
             }
-            cardQuestionsContent += "</form><br>";
+            cardQuestionsContent += "</div>";
+            cardQuestionsContent += "<p id=\"textAnswer" + object.questions[i].id + "\"></p>";
         }
 
-        cardQuestionsContent += "<button onclick=\"send(\'" + object._id + "\')\">Senden!</button><br><br>"
-        cardQuestionsContent += "<i>Nach dem Senden werden deine Antworte gespeichert und können nicht mehr bearbeitet werden!</i><br>"
+        cardQuestionsContent += "<button id=\"buttonSend\" onclick=\"send(\'" + object._id + "\')\">Senden!</button><br><br>"
+        cardQuestionsContent += "<p id=\"textSend\"><i>Nach dem Senden werden deine Antworten gespeichert und können nicht mehr bearbeitet werden!</i></p><br>"
         cardQuestionsContent = $("<div class='w3-container'></div>").html(cardQuestionsContent);
         cardQuestions.append(cardQuestionsContent);
         $("#cardList").append(cardQuestions); 
@@ -165,17 +166,38 @@ function createCard(title, content){
 
 function send(_id) {
     // set object as processed(played by user) in local storage
-    localStorage.setItem(_id, "2");
-    // reset view in order to only show current information
-    $("#cardList").empty();
-    let cardSend = createCard("Weiter geht's!", "Deine Antworten wurden gespeichert, gehe zum nächsten Objekt!");
-    $("#cardList").append(cardSend);
-
+    localStorage.setItem(_id, "true");
+    
     // build request URL (/api/object/[_id])
     var requestURL = "/api/object/" + _id;
 
     // request information for ID from backend (data in contained in var object as JSON)
     $.get( requestURL, function( object ) {
+        console.log(object);
+        var scoreCampusRallye;
+        new Number(scoreCampusRallye);
+        scoreCampusRallye = parseInt(localStorage.getItem("scoreCampusRallye"));
+       
+        // get questions and check results from user
+        for (i in object.questions) {
+            var nameRadioGroup = "input[name=question" + object.questions[i].id + "]:checked";
+            var nameTextAnswer = "textAnswer" + object.questions[i].id;
+            var result = $(nameRadioGroup).val();
+            if (result == "true") {
+                document.getElementById(nameTextAnswer).innerHTML = "<font color=\"green\">&#10004; Diese Antwort war richtig!</font>";
+                scoreCampusRallye = scoreCampusRallye + 1;
+            } else if (result == "false") {
+                document.getElementById(nameTextAnswer).innerHTML = "<font color=\"red\">&#10006; Diese Antwort war falsch!</font>";
+            } else {
+                document.getElementById(nameTextAnswer).innerHTML = "<font color=\"red\">&#9888; Keine Antwort abgegeben!</font>";
+            }
+        }
 
+        localStorage.setItem("scoreCampusRallye", scoreCampusRallye);
     });    
+
+    
+    // remove send button and text
+    document.getElementById("buttonSend").remove();
+    document.getElementById("textSend").remove();
 }

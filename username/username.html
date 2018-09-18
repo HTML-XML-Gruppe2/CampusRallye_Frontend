@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../app.css">
+
+    <meta charset="utf-8" />
+    <title>CampusRallye</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+    <div id="sideMenu" class="w3-sidebar w3-bar-block w3-border-right w3-large">
+        <button id="closeMenu" class="w3-bar-item w3-border-bottom"><i class="fa fa-times"></i> Schließen</button>
+		<!-- Knapheidesi anführende / gelöscht -->
+        <a href="../index.html" class="w3-bar-item w3-button w3-border-bottom"> <i class="fa fa-qrcode"></i> Scan</a>
+        <a href="../collection/collection.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-archive"></i> Sammlung</a>
+        <a href="../map/map.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-map"></i> Karte</a>
+		<a href="../highscore/highscore.html" class="w3-bar-item w3-button w3-border-bottom"><i class="	fa fa-list-ol"></i> Highscore</a>
+		<a href="../username/username.html" class="w3-bar-item w3-button "><i class="fa fa-send"></i> Beenden</a>
+    </div>
+
+    <div class="w3-bar w3-large">
+        <button id="navButton" class="w3-bar-item w3-button">
+            <i class="fa fa-bars"></i>
+        </button>
+		
+		<!-- ToDo: Ausgabe mittig -->
+        <div class="w3-bar-item">
+			<a href="../index.html" class="w3-bar-item w3-hover-gray w3-button">CampusRallye</a>
+			<br>
+			<a class="w3-bar-item">Beenden </a>
+		</div>
+	</div>
+
+<!-- ToDo: Text -->	
+	<h1 align="center">Deine Punkte:</h1>   <!-- ToDo: Punkte einfügen -->
+	<h2 align="center">Um das Spiel zu beenden und dich in die Rankingliste eintragen zu können, musst du deinen Namen angeben.</h2>
+<!-- ToDo: Eingabefeld -->
+	<form align="center">  <!-- ToDo: Aktonhandler rein -->
+		<p style="font-size: 18px">
+			Name:
+			<input type="text" name="username">
+		</p>
+		<input type="submit" value="Abschicken">
+	</form>
+</body>
+
+
+<!-- Öffnen/Schließen der Sidebar -->
+<script src="../navbarfunction.js"></script>		
+
+
+</html>

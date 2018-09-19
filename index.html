@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html>
 
-<head>  
+
+<head>
+    <!-- sources -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="instascan.min.js"></script>
 
+    <!-- style sheets -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="app.css">
 
+    <!-- settings -->
     <meta charset="utf-8" />
-    <title>CampusRallye</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <title>CampusRallye</title>
 </head>
 
+
 <body>
+    <!-- navigation -->
     <div id="sideMenu" class="w3-sidebar w3-bar-block w3-border-right w3-large">
         <button id="closeMenu" class="w3-bar-item w3-border-bottom"><i class="fa fa-times"></i> Schließen</button>
-		<!-- Knapheidesi anführende / gelöscht -->
-        <a href="index.html" class="w3-bar-item w3-button w3-border-bottom"> <i class="fa fa-qrcode"></i> Scan</a>
-        <a href="collection/collection.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-archive"></i> Sammlung</a>
-        <a href="map/map.html" class="w3-bar-item w3-button "><i class="fa fa-map"></i> Karte</a>
+        <a href="../index.html" class="w3-bar-item w3-button w3-border-bottom"> <i class="fa fa-qrcode"></i> Scan</a>
+        <a href="../collection/collection.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-archive"></i>
+            Sammlung</a>
+        <a href="../map/map.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-map"></i> Karte</a>
+        <a href="../highscore/highscore.html" class="w3-bar-item w3-button w3-border-bottom"><i class="	fa fa-list-ol"></i>
+            Highscore</a>
+        <a href="../username/username.html" class="w3-bar-item w3-button "><i class="fa fa-send"></i> Beenden</a>
     </div>
 
     <div class="w3-bar w3-amber w3-large">
@@ -31,23 +39,24 @@
         <div class="w3-bar-item">CampusRallye</div>
     </div>
     <div id="content" class="w3-light-gray">
+
+        <!-- scanner -->
         <div id="scannerCard" class="w3-card w3-white">
             <div id="previewBox">
                 <video id="preview"></video>
             </div>
         </div>
         <br>
-        <div id="cardList">
 
+        <!-- card (content) -->
+        <div id="cardList">
         </div>
     </div>
 
-    <p id="questions"></p>
-
+   <!-- settings <p id="questions"></p>-->
 </body>
 
-
+<!-- functions -->
 <script src="scanner.js"></script>
-
 
 </html>

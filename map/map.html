@@ -10,7 +10,8 @@
 
     <meta charset="utf-8" />
     <title>CampusRallye</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <img src="map.jpg" id= 'Karte' style="display:none">    
 
 </head>
 
@@ -30,14 +31,14 @@
         <div class="w3-bar-item">CampusRallye</div>
     </div>
     <div id="content" class="w3-light-gray">
-	<!--<img src="standort-lingen-campus.jpg" class="img-responsive" alt="Campus Map"> -->
-
-	<img src="http://www.clipartbest.com/cliparts/ncX/qyL/ncXqyLdcB.png" class="pin1">
+	<canvas id="canvas"width="1000px" height="400px" style="border: 1px solid black">
+        <img src="http://www.clipartbest.com/cliparts/ncX/qyL/ncXqyLdcB.png" class="pin1">
 	<img src="http://www.clipartbest.com/cliparts/ncX/qyL/ncXqyLdcB.png" class="pin2">
         </div>
     </div>
 
 </body>
+<script src="fabric.js"></script>
 <script src="map.js"></script>
 
 

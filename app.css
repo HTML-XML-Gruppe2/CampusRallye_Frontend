@@ -30,5 +30,33 @@ body,html{
 }
 
 .w3-bar{
-	background-color: #1E90FF;  
+	background-color: #1E90FF; 
 }
+
+.mitte{     /* Test für mittige Navbar */
+	width:100%;
+	text-align: center;
+}
+
+th,td{
+	padding: 10px;
+	text-align: left;
+	/* border-bottom: 1px solid #ddd; */
+}
+
+button{
+	background-color: white;
+	border-color: #1E90FF;
+	cursor:pointer;
+}
+
+button:hover{
+	background-color: lightgray;
+}
+
+input{
+	border-color: lightgray;
+	
+}
+
+

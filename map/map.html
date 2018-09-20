@@ -1,45 +1,155 @@
 <!DOCTYPE html>
 <html>
 
-<head>  
+<head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../app.css">
-	<link rel="stylesheet" href="map.css">
 
     <meta charset="utf-8" />
     <title>CampusRallye</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">    
-    <img src="map.jpg" id= 'Karte' style="display:none">    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Öffnen/Schließen der Sidebar -->
+    <script src="../navbarfunction.js"></script>
 </head>
 
 <body>
     <div id="sideMenu" class="w3-sidebar w3-bar-block w3-border-right w3-large">
         <button id="closeMenu" class="w3-bar-item w3-border-bottom"><i class="fa fa-times"></i> Schließen</button>
-		<!-- Knapheidesi anführende / gelöscht und ../ für parent nodes -->
+        <!-- Knapheidesi anführende / gelöscht und ../ für parent nodes -->
         <a href="../index.html" class="w3-bar-item w3-button w3-border-bottom"> <i class="fa fa-qrcode"></i> Scan</a>
-        <a href="../collection/collection.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-archive"></i> Sammlung</a>
-        <a href="../map/map.html" class="w3-bar-item w3-button "><i class="fa fa-map"></i> Karte</a>
+        <a href="../collection/collection.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-archive"></i>
+            Sammlung</a>
+        <a href="../map/map.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-map"></i> Karte</a>
+        <a href="../highscore/highscore.html" class="w3-bar-item w3-button w3-border-bottom"><i class="	fa fa-list-ol"></i>
+            Highscore</a>
+        <a href="../username/username.html" class="w3-bar-item w3-button "><i class="fa fa-send"></i> Beenden</a>
     </div>
 
-    <div class="w3-bar w3-amber w3-large">
-        <button id="navButton" class="w3-bar-item w3-button ">
-            <i class="fa fa-bars"></i>
-        </button>
+    <div class="w3-bar w3-large">
+            <button id="navButton" class="w3-bar-item w3-button">
+                <i class="fa fa-bars"></i>
+            </button>
+
         <div class="w3-bar-item">CampusRallye</div>
     </div>
     <div id="content" class="w3-light-gray">
-	<canvas id="canvas"width="1000px" height="400px" style="border: 1px solid black">
-        <img src="http://www.clipartbest.com/cliparts/ncX/qyL/ncXqyLdcB.png" class="pin1">
-	<img src="http://www.clipartbest.com/cliparts/ncX/qyL/ncXqyLdcB.png" class="pin2">
-        </div>
+        <canvas id="Canvas" width="1000px" height="550px" style="border: 1px solid black">
+            <!--  <script src="fabric.js"></script>
+            <script src="map.js"></script> -->
     </div>
+    <div>
+        <canvas id="Canvas" width="800" height="573"></canvas>
+
+        <script>
+            var canvas = document.getElementById('Canvas');
+            var context = canvas.getContext("2d");
+
+            // Map sprite
+            var mapSprite = new Image();
+            mapSprite.src = "map.jpg";
+
+            var Marker = function () {
+                this.Sprite = new Image();
+                this.Sprite.src = "http://www.clker.com/cliparts/w/O/e/P/x/i/map-marker-hi.png"
+                this.Width = 12;
+                this.Height = 20;
+                this.XPos = 0;
+                this.YPos = 0;
+            }
+
+            var Markers = new Array();
+
+            var mouseClicked = function (mouse) {
+                // Get corrent mouse coords
+                var rect = canvas.getBoundingClientRect();
+                var mouseXPos = (mouse.x - rect.left);
+                var mouseYPos = (mouse.y - rect.top);
+
+                console.log("Marker added");
+
+                // Move the marker when placed to a better location
+                var marker = new Marker();
+                marker.XPos = mouseXPos - (marker.Width / 2);
+                marker.YPos = mouseYPos - marker.Height;
+
+                Markers.push(marker);
+            }
+
+            // Add mouse click event listener to canvas
+            canvas.addEventListener("mousedown", mouseClicked, false);
+
+            var firstLoad = function () {
+                context.font = "15px Georgia";
+                context.textAlign = "center";
+            }
+
+            firstLoad();
+
+            var main = function () {
+                draw();
+            };
+
+            var draw = function () {
+                // Clear Canvas
+                context.fillStyle = "#000";
+                context.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Draw map
+                // Sprite, X location, Y location, Image width, Image height
+                // You can leave the image height and width off, if you do it will draw the image at default size
+                context.drawImage(mapSprite, 0, 0);
+
+                // Draw markers
+                for (var i = 0; i < Markers.length; i++) {
+                    var tempMarker = Markers[i];
+                    // Draw marker
+                    context.drawImage(tempMarker.Sprite, tempMarker.XPos, tempMarker.YPos, tempMarker.Width, tempMarker.Height);
+
+                    // Calculate postion text
+                    var markerText = "Postion (X:" + tempMarker.XPos + ", Y:" + tempMarker.YPos;
+
+                    // Draw a simple box so you can see the position
+                    var textMeasurements = context.measureText(markerText);
+                    context.fillStyle = "#666";
+                    context.globalAlpha = 0.7;
+                    context.fillRect(tempMarker.XPos - (textMeasurements.width / 2), tempMarker.YPos - 15, textMeasurements.width, 20);
+                    context.globalAlpha = 1;
+
+                    // Draw position above
+                    context.fillStyle = "#000";
+                    context.fillText(markerText, tempMarker.XPos, tempMarker.YPos);
+                }
+            };
+
+            setInterval(main, (1000 / 60)); // Refresh 60 times a second
+
+
+        </script> -->
+    </div>
+    <!-- <div>
+        <script>
+            var pinchZoom = new PinchZoomCanvas({
+                canvas: document.getElementById('Canvas'),
+                //path: "map.jpg",
+                momentum: true,
+                zoomMax: 2,
+                doubletap: true,
+                onZoomEnd: function (zoom, zoomed) {
+                    console.log("- is zoomed: %s", zoomed);
+                    console.log("- zoom end at %s", zoom);
+                },
+                onZoom: function (zoom) {
+                    console.log("- zoom is %s", zoom);
+                }
+            });
+        </script>
+    </div> -->
 
 </body>
-<script src="fabric.js"></script>
-<script src="map.js"></script>
+
 
 
 </html>

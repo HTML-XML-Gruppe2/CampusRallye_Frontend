@@ -36,20 +36,28 @@
         <div class="w3-bar-item">CampusRallye</div>
     </div>
     <div id="content" class="w3-light-gray">
-        <canvas id="Canvas" width="1000px" height="550px" style="border: 1px solid black">
+        <canvas id="Canvas" width="1000px" height="550px">
+            <!-- <canvas id="Canvas" width="100%" height="100%"> </canvas> -->
+
             <!--  <script src="fabric.js"></script>
             <script src="map.js"></script> -->
     </div>
     <div>
-        <canvas id="Canvas" width="800" height="573"></canvas>
+        <!-- <canvas id="Canvas" width="800" height="573"></canvas> -->
 
         <script>
             var canvas = document.getElementById('Canvas');
             var context = canvas.getContext("2d");
-
+            canvas.width = window.innerWidth;
+            canvas.height = document.documentElement.clientHeight;
             // Map sprite
             var mapSprite = new Image();
             mapSprite.src = "map.jpg";
+            // mapSprite.onload = function () {
+            //         canvas.height = mapSprite.height;
+            //         canvas.width = mapsprite.width;
+            //         context.drawImage(mapSprite, 0, 0);
+            //     };
 
             var Marker = function () {
                 this.Sprite = new Image();
@@ -100,7 +108,7 @@
                 // Draw map
                 // Sprite, X location, Y location, Image width, Image height
                 // You can leave the image height and width off, if you do it will draw the image at default size
-                context.drawImage(mapSprite, 0, 0);
+                context.drawImage(mapSprite, 0, 0, canvas.width, canvas.height);
 
                 // Draw markers
                 for (var i = 0; i < Markers.length; i++) {

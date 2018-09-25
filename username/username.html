@@ -26,23 +26,18 @@
 		<a href="../username/username.html" class="w3-bar-item w3-button "><i class="fa fa-send"></i> Beenden</a>
     </div>
 
+	
+	
    <div class="w3-bar w3-large"> 
-	<!-- <div class="w3-container w3-blue">		 --><!-- TEST --->
-        <button id="navButton" class="w3-bar-item w3-button"> <!-- class="w3-bar-item w3-button"> -->
+
+        <button id="navButton" class="w3-bar-item w3-button"> 
             <i class="fa fa-bars"></i>
         </button>
 		
-		<a href="../index.html" class="w3-bar-item w3-hover-lightgray w3-button mitte">CampusRallye</a>
-			<br>
-		<a class="w3-bar-item mitte">Beenden </a>
-		
+		<div class="w3-bar-item"> 
+			<a href="../index.html" class="w3-hover-lightgray" style="text-decoration:none">CampusRallye - Beenden </a>
+		</div>		
 
-		<!-- Problem ist, dass CampusRallye unterhalb der Navbar verschoben ist und nicht mittig angezeigt wird-->
-    <!--     <div class="w3-bar-item mitte"><!-- class="w3-container" w3-bar-item"> -->
-			<!-- <a href="../index.html" class="w3-bar-item w3-hover-gray w3-button mitte">CampusRallye</a>
-			<br>
-			<a class="w3-bar-item mitte">Beenden </a>
-		</div> --> 
 	</div>
 
 
@@ -68,16 +63,16 @@
 			Name:
 			<input id="username" type="text" name="username" autofocus>
 			<!-- <a href="../highscore/highscore.html"> -->
-				<button onclick="filled()">Abschicken</button>
+				<button onclick="filled()" class="w3-button">Abschicken</button>
 			<!-- </a> -->
 		</p>
 		
 	<p id="confirmation" align="center" style="display:none">
 		Sind Sie sicher, dass Sie das Spiel beenden möchten?
 		<a href="../highscore/highscore.html" style="text-decoration:none">
-			<button id="yes" onclick="postuser()" style="display:none; margin:10px" >Ja</button>
+			<button id="yes" onclick="postuser()" style="display:none; margin:10px" class="w3-button">Ja</button>
 		</a> 
-		<button id="no" onclick="confirmation()" style="display:none">Nein</button>
+		<button id="no" onclick="confirmation()" style="display:none" class="w3-button">Nein</button>
 	</p>
 	
 	<!-- ToDo: Username und Punktzahl an Server per jQuery $.Post() übergeben -->

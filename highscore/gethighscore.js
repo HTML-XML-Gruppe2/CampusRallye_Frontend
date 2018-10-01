@@ -14,7 +14,7 @@ $(document).ready(function(){
 
 	var highscore, place;
 	place = 1;
-	highscore = "<table>"; /*"<table> <tr> <th> Platz </th> <th> Name </th> <th> Punkte </th> </tr>";		/* ToDo: Anzeige mittig */
+	highscore = "<div class='w3-responsive'><table class='w3-table-all' style='width: 40%' align='center'>"; /*"<table> <tr> <th> Platz </th> <th> Name </th> <th> Punkte </th> </tr>";		/* ToDo: Anzeige mittig */
 	data.forEach(print);
 	function print(value){
 		let textpunkte;

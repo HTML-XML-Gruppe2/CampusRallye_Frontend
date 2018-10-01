@@ -38,14 +38,13 @@ function confirmation() {
 		
     }
 	
-	
 }
 
 
 //sending user and score to the backend
 function postuser(){
 	 var username = $("#username").val();
-	 var punkte = localStorage.getItem("score");
+	 var punkte = localStorage.getItem("scoreCampusRallye");
 	
 	
 	 /*alert(punkte); +/			ToDo: wieder reinnehmen
@@ -55,6 +54,9 @@ function postuser(){
         punkte: punkte
 		}); */
 	 
+	
+	 localStorage.removeItem("scoreCampusRallye");
+	 localStorage.removeItem("visitedObjectsCampusRallye");
 }
 	 
 

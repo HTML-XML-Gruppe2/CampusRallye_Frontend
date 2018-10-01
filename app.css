@@ -3,7 +3,6 @@ body,html{
 }
 
 #content{
-
     padding: 10px; 
     height: 100%;
 }
@@ -11,7 +10,6 @@ body,html{
 #preview{
     width: 100%; 
     height: 100%;
-    
 }
 
 #scannerCard{
@@ -21,7 +19,7 @@ body,html{
 #sideMenu{
     display: none;
     width: 70%;
-	background-color: #1E90FF; 
+	background-color: #888; 
 }
 
 .w3-card{
@@ -30,7 +28,7 @@ body,html{
 }
 
 .w3-bar{
-	background-color: #1E90FF; 
+	background-color: #888; 
 }
 
 .mitte{     /* Test für mittige Navbar */
@@ -46,17 +44,103 @@ th,td{
 
 button{
 	background-color: white;
-	border-color: #1E90FF;
+	border-color: #888;
 	cursor:pointer;
 }
 
 button:hover{
-	background-color: lightgray;
+	background-color: #00c3ff;
 }
 
 input{
-	border-color: lightgray;
-	
+	border-color: #1E90FF;
 }
 
+.collapsible {
+	background-color: #888;
+	color: white;
+	cursor: pointer;
+	padding: 18px;
+	width: 100%;
+	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 15px;
+}
 
+.active,
+.collapsible:hover {
+	background-color: #555;
+	color: #00c3ff;
+}
+
+.content {
+	padding: 0 18px;
+	display: none;
+	overflow: hidden;
+	background-color: #FFFFFF;
+}
+
+body {
+	background-color: #f1f1f1;
+}
+
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+	padding-top: 60px;
+	opacity: 0.95;
+}
+
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+	transition: 0.1s;
+}
+
+.sidebar a:hover {
+    color: #00c3ff;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #888;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+}
+
+.openbtn:hover {
+    background-color: #555;
+    color: #00c3ff;
+}
+
+#main {
+    transition: margin-left 0.1s;
+    padding: 16px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+}

@@ -48,7 +48,7 @@ $(document).ready(function () {
                     scanner.start(cameras[currentCam]);
                 });
             });
-       
+
         } else {
             // no camera found
             console.error('No cameras found.');
@@ -64,7 +64,7 @@ $(document).ready(function () {
     $("#closeMenu").click(function () {
         $("#sideMenu").css("display", "none");
     });
-
+    onScan("");
 });
 
 
@@ -78,7 +78,7 @@ $(document).ready(function () {
 */
 function onScan(content) {
     // test data QR code
-    content = "https://localhost:8080/5b9cfefa1e77bd3470c2041f";
+    //content = "https://localhost:8080/5b9cfefa1e77bd3470c2041f";
 
     // reset view in order to only show current information
     $("#cardList").empty();
@@ -100,7 +100,7 @@ function onScan(content) {
         console.log(object);
 
         // check if ID/object has already been processed (played by user) - data will be set in local storage
-        if (1 == 2) { // disable function as long in test mode
+        if (1 !== 2) { // disable function as long in test mode
             var objectID = localStorage.getItem(object._id);
             if (objectID !== null) {
                 let cardAlreadyProcessed = createCard(object.name, "");
@@ -115,16 +115,12 @@ function onScan(content) {
         }
 
         // display general information about the object
-        let cardGeneralInformation = createCard(object.name, "");
-        let cardGeneralInformationContent = object.description;
-        cardGeneralInformationContent = $("<div class='w3-container'></div>").html(cardGeneralInformationContent);
-        cardGeneralInformation.append(cardGeneralInformationContent);
+        let cardGeneralInformation = createCard(object.name, object.description);
         let cardGeneralInformationContentBreak = $("<p></p>").html("");
         cardGeneralInformation.append(cardGeneralInformationContentBreak);
         $("#cardList").append(cardGeneralInformation);
 
         // create card questions
-        let cardQuestions = createCard("Fragen", "");
         let cardQuestionsContent = "Beantworte folgende Fragen! Viel Erfolg! <br><br>";
 
         // display question
@@ -145,29 +141,40 @@ function onScan(content) {
         // display button to confirm answers
         cardQuestionsContent += "<button id=\"buttonSend\" onclick=\"confirmAnswers(\'" + object._id + "\')\">Senden!</button><br><br>"
         cardQuestionsContent += "<p id=\"textSend\"><i>Nach dem Senden werden deine Antworten gespeichert und können nicht mehr bearbeitet werden!</i></p><br>"
-        
+
         // append card
-        cardQuestionsContent = $("<div class='w3-container'></div>").html(cardQuestionsContent);
-        cardQuestions.append(cardQuestionsContent);
+        //cardQuestionsContent = $("<div class='w3-container'></div>").html(cardQuestionsContent);
+        let cardQuestions = createCard("Fragen", cardQuestionsContent);
+        //cardQuestions.append(cardQuestionsContent);
         $("#cardList").append(cardQuestions);
+
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        }
     });
 }
 
 
 /*  createCard
-    This method creates a "card" with title and body.
+    This method creates a "card" with title (as button) and body.
+    The body is hidden by default and can be displayed by a buttonclick!
 */
 function createCard(title, content) {
-    // create title
-    let cardHeader = $("<header class='w3-container w3-amber'></header>");
-    cardHeader.append($("<h4></h4>").text(title));
-
-    // create body
-    let cardBody = $("<div class='w3-container'></div>").text(content);
-
-    // create card with title + body and return data
-    let card = $("<div class='w3-card w3-white'></div>").append(cardHeader);
-    card.append(cardBody);
+    let newContent = "<div><button class=\"collapsible\">" + title + "</button>";
+    newContent += "<div class=\"content\">" + content + "</div></div>";
+    let cardBody = $("<div></div>").html(newContent);
+    let card = $("<div class='w3-card w3-white'></div>").append(cardBody);
     return card;
 }
 
@@ -176,42 +183,97 @@ function createCard(title, content) {
     This method confirms answers and displays the solutions
 */
 function confirmAnswers(_id) {
-    // set object as processed (played by user) in local storage
-    localStorage.setItem(_id, "true");
-
     // build request URL (/api/object/[_id])
     var requestURL = "/api/object/" + _id;
 
     // request information for ID from backend (data in contained in var object as JSON)
     $.get(requestURL, function (object) {
         console.log(object);
-        var scoreCampusRallye;
-        new Number(scoreCampusRallye);
-        scoreCampusRallye = parseInt(localStorage.getItem("scoreCampusRallye"));
-
-        // get questions and check results from user
-        for (i in object.questions) {
-            var nameRadioGroup = "input[name=question" + object.questions[i].id + "]:checked";
-            var nameTextAnswer = "textAnswer" + object.questions[i].id;
-            var result = $(nameRadioGroup).val();
-            var nameRadioGroupAll = "input[name=question" + object.questions[i].id + "]";
-            $(nameRadioGroupAll).attr('disabled', true);
-            if (result == "true") {
-                document.getElementById(nameTextAnswer).innerHTML = "<font color=\"green\">&#10004; Diese Antwort war richtig!</font>";
-                scoreCampusRallye = scoreCampusRallye + 1;
-            } else if (result == "false") {
-                document.getElementById(nameTextAnswer).innerHTML = "<font color=\"red\">&#10006; Diese Antwort war falsch!</font>";
+        var flagNoAnswer = isNoAnswer(object);
+        if (flagNoAnswer == true) {
+            var answer = confirm("Es wurden nicht alle Fragen beantwortet! Trotzdem fortfahren?");
+            if (answer == true) {
+                saveAnswers(object);
             } else {
-                document.getElementById(nameTextAnswer).innerHTML = "<font color=\"red\">&#9888; Keine Antwort abgegeben!</font>";
             }
+        } else {
+            saveAnswers(object);
         }
-
-        // set score
-        localStorage.setItem("scoreCampusRallye", scoreCampusRallye);
     });
+}
 
 
-    // remove send button and text
+/*  confirmAnswers
+    This method returns true if user hasn't answered all questions
+*/
+function isNoAnswer(object) {
+    // get questions and check results from user --> if no answer: return "true"
+    for (i in object.questions) {
+        var nameRadioGroup = "input[name=question" + object.questions[i].id + "]:checked";
+        var nameTextAnswer = "textAnswer" + object.questions[i].id;
+        var result = $(nameRadioGroup).val();
+        var nameRadioGroupAll = "input[name=question" + object.questions[i].id + "]";
+        if (result == "true") {
+        } else if (result == "false") {
+        } else {
+            return true;
+        }
+    }
+}
+
+
+/*  confirmAnswers
+    This method saves the answers. Therefore die answers have to be analyzed, the score has to be increased,
+    the object has to be added to the visited objects and the confirm process has to be disabled!
+*/
+function saveAnswers(object) {
+    // get current score and visited objects
+    var scoreCampusRallye = localStorage.getItem("scoreCampusRallye");
+    if (scoreCampusRallye == null) {
+        scoreCampusRallye = 0;
+    }
+    new Number(scoreCampusRallye);
+    var visitedObjectsCampusRallye = localStorage.getItem("visitedObjectsCampusRallye")
+    if (visitedObjectsCampusRallye == null) {
+        visitedObjectsCampusRallye = "{\"visitedObjects\":[]}";
+    }
+
+    // get questions + answers and check results from user --> increase score
+    for (i in object.questions) {
+        var nameRadioGroup = "input[name=question" + object.questions[i].id + "]:checked";
+        var nameTextAnswer = "textAnswer" + object.questions[i].id;
+        var result = $(nameRadioGroup).val();
+        var nameRadioGroupAll = "input[name=question" + object.questions[i].id + "]";
+        $(nameRadioGroupAll).attr('disabled', true);
+        if (result == "true") {
+            document.getElementById(nameTextAnswer).innerHTML = "<font color=\"green\">&#10004; Diese Antwort war richtig!</font>";
+            scoreCampusRallye++;
+        } else if (result == "false") {
+            document.getElementById(nameTextAnswer).innerHTML = "<font color=\"red\">&#10006; Diese Antwort war falsch!</font>";
+        } else {
+            document.getElementById(nameTextAnswer).innerHTML = "<font color=\"red\">&#9888; Keine Antwort abgegeben!</font>";
+        }
+    }
+
+    // set new score and visited items
+    localStorage.setItem("scoreCampusRallye", scoreCampusRallye);
+    var visitedObjectsCampusRallyeJSON = JSON.parse(visitedObjectsCampusRallye);
+    visitedObjectsCampusRallyeJSON['visitedObjects'].push({ "_id": object._id, "name": object.name });
+    visitedObjectsCampusRallye = JSON.stringify(visitedObjectsCampusRallyeJSON);
+    localStorage.setItem("visitedObjectsCampusRallye", visitedObjectsCampusRallye);
+
+    // remove confirm elements so that user can't confirm twice
     document.getElementById("buttonSend").remove();
     document.getElementById("textSend").remove();
+}
+
+
+function openNav() {
+    document.getElementById("mySidebar").style.width = "100%";
+    document.getElementById("main").style.marginLeft = "100%";
+}
+
+function closeNav() {
+    document.getElementById("mySidebar").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
 }

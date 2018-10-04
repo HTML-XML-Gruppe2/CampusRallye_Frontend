@@ -36,7 +36,7 @@ $(document).ready(function () {
         } else if (cameras.length > 1) {
             // more than one camera: get decision by user 
             scanner.start(cameras[currentCam]);
-            var toggleCamButton = $("<button type='button' id='toggleCamButton' class='w3-button w3-amber'></button>").text("Kamera wechseln");
+            var toggleCamButton = $("<button type='button' id='toggleCamButton'></button>").text("Kamera wechseln");
             $("#scannerCard").append(toggleCamButton);
             $("#toggleCamButton").click(function () {
                 scanner.stop().then(function () {
@@ -79,6 +79,7 @@ $(document).ready(function () {
 function onScan(content) {
     // test data QR code
     //content = "https://localhost:8080/5b9cfefa1e77bd3470c2041f";
+    content = "https://localhost:8080/5bb5b782d5cf59207c30c37b";
 
     // reset view in order to only show current information
     $("#cardList").empty();
@@ -100,7 +101,7 @@ function onScan(content) {
         console.log(object);
 
         // check if ID/object has already been processed (played by user) - data will be set in local storage
-        if (1 !== 2) { // disable function as long in test mode
+        if (1 == 2) { // disable function as long in test mode
             var objectID = localStorage.getItem(object._id);
             if (objectID !== null) {
                 let cardAlreadyProcessed = createCard(object.name, "");

@@ -18,24 +18,73 @@
 </head>
 
 <body>
-    <div class="w3-bar w3-amber w3-large">
+    <div class="w3-bar w3-large">
         <div class="w3-bar-item">CampusRallye - Admin</div>
     </div>
     <div id="content" class="w3-light-gray">
 
         <div class="w3-row w3-light-gray">
-            <div class="w3-card w3-white w3-col m4 l4 w3-responsive">
-                <h3 class="w3-container"><b>Objects </b></h3>
-
-                <ul id="objectList" class="w3-ul w3-border w3-hoverable">
-                </ul>
+            <div class="w3-col m4 l4 w3-light-gray">
+                <div class="w3-card w3-white w3-responsive">
+                    <h3 class="w3-container"><b>Objects </b></h3>
+                    <ul id="objectList" class="w3-ul w3-hoverable w3-border">
+                    </ul>
+                </div>
             </div>
-
-            <div class="w3-card w3-white w3-col m8 l8">
-                <div id="objectDetails" class="w3-container"> </div>
+            <div class="w3-col m8 l8 w3-light-gray">
+                <div class="w3-card w3-white">
+                    <div id="objectDetails" class="w3-container">
+                        <div id="placeholder">
+                            <h3 id="placeholderContent">Choose an object from the List to see details </h3>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 
+    <div id="deleteModal" class="w3-modal">
+        <div class="w3-modal-content">
+
+            <header class="w3-container mainColor">
+                <span onclick="hideDeleteModal()" class="w3-button w3-display-topright">&times;</span>
+                <h2>Delete object</h2>
+            </header>
+
+            <div class="w3-container">
+                <p id="deleteText"></p>
+                <button id="confirmDeleteButton" class="w3-button mainColor">yes</button>
+                <button onclick="hideDeleteModal()" class="w3-button mainColor">no</button>
+
+            </div>
+            <br/>
+        </div>
+    </div>
+
+    <div id="addModal" class="w3-modal">
+        <div class="w3-modal-content">
+
+            <header class="w3-container mainColor">
+                <span onclick="hideAddModal()" class="w3-button w3-display-topright">&times;</span>
+                <h2>add questions</h2>
+            </header>
+
+            <div class="w3-container">
+                <label>Question Text</label>
+                <input id='questionTextInput' class='w3-input w3-border' type='text'>
+                <br/> answers (tick the correct one)
+                <form id='answerInputs'>
+
+                </form>
+                <br/>
+                <button onclick="addQuestionField()" class="w3-button mainColor">+</button>
+                <hr/>
+                <button onclick="addQuestion()" class="w3-button mainColor">save</button>
+                <button onclick="hideAddModal()" class="w3-button mainColor">cancel</button>
+
+            </div>
+            <br/>
+        </div>
     </div>
 </body>
 

@@ -1,3 +1,36 @@
 .w3-card{
     max-width: 100%;
 }
+
+#placeholderContent{
+    color: gray;
+    min-height: 200px;
+    margin: auto;
+    padding-top: 50px;
+}
+
+#placeholder{
+    text-align: center;
+    height: 100%;
+}
+
+.mainColor{
+    background-color: #888; 
+    color: white;
+}
+
+#delButton, #saveButton{
+    float: right;
+}
+
+#descriptionInput{
+    resize: none;
+}
+
+.positionInput{
+    max-width: 250px;
+}
+
+.answerInput{
+    margin: 10px;
+}

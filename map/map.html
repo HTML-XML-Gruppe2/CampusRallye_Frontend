@@ -8,17 +8,17 @@
     <link rel="stylesheet" href="../app.css">
 
     <meta charset="utf-8" />
-    <title>CampusRallye</title>
+    <title>CampusRallye - Karte</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <!-- <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"> -->
     <!-- Öffnen/Schließen der Sidebar -->
     <script src="../navbarfunction.js"></script>
+    <!-- <script src="Hammer.js"></script> -->
 </head>
 
 <body>
-    <div id="sideMenu" class="w3-sidebar w3-bar-block w3-border-right w3-large">
-        <button id="closeMenu" class="w3-bar-item w3-border-bottom"><i class="fa fa-times"></i> Schließen</button>
-        <!-- Knapheidesi anführende / gelöscht und ../ für parent nodes -->
+    <div id="mySidebar" class="sidebar">
+        <a href="../javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
         <a href="../index.html" class="w3-bar-item w3-button w3-border-bottom"> <i class="fa fa-qrcode"></i> Scan</a>
         <a href="../collection/collection.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-archive"></i>
             Sammlung</a>
@@ -29,36 +29,147 @@
     </div>
 
     <div class="w3-bar w3-large">
-            <button id="navButton" class="w3-bar-item w3-button">
-                <i class="fa fa-bars"></i>
-            </button>
-
-        <div class="w3-bar-item">CampusRallye</div>
+        <button class="openbtn" onclick="openNav()">☰ CampusRallye</button>  
     </div>
-    <div id="content" class="w3-light-gray">
-        <canvas id="Canvas" width="1000px" height="550px">
-            <!-- <canvas id="Canvas" width="100%" height="100%"> </canvas> -->
+    <center><h1><b>Karte</b></h1></center>
 
-            <!--  <script src="fabric.js"></script>
-            <script src="map.js"></script> -->
+    <div id="content" class="w3-light-gray">
+        <canvas id="Canvas"></canvas>
     </div>
     <div>
-        <!-- <canvas id="Canvas" width="800" height="573"></canvas> -->
 
         <script>
             var canvas = document.getElementById('Canvas');
             var context = canvas.getContext("2d");
-            canvas.width = window.innerWidth;
-            canvas.height = document.documentElement.clientHeight;
+            canvas.width = window.innerWidth * 0.97;
+            canvas.height = canvas.width * 0.583;
             // Map sprite
             var mapSprite = new Image();
             mapSprite.src = "map.jpg";
-            // mapSprite.onload = function () {
-            //         canvas.height = mapSprite.height;
-            //         canvas.width = mapsprite.width;
-            //         context.drawImage(mapSprite, 0, 0);
-            //     };
 
+            //Knapheidesi Karte Responsive an Fenster anpassen
+            window.addEventListener("resize", handleResize);
+            function handleResize() {
+                canvas.width = window.innerWidth * 0.97;
+                canvas.height = canvas.width * 0.583;
+                main();
+            }
+            //Knapheidesi Karte Responsive an Fenster anpassen Ende
+            
+            
+            //Knapheidesi zoomen
+            //https://stackoverflow.com/questions/18011099/pinch-to-zoom-using-hammer-js
+
+            // function hammerIt(canvas) {
+            //     hammertime = new Hammer(canvas, {});
+            //     hammertime.get('pinch').set({
+            //         enable: true
+            //     });
+            //     var posX = 0,
+            //         posY = 0,
+            //         scale = 1,
+            //         last_scale = 1,
+            //         last_posX = 0,
+            //         last_posY = 0,
+            //         max_pos_x = 0,
+            //         max_pos_y = 0,
+            //         transform = "",
+            //         el = canvas;
+
+            //     hammertime.on('doubletap pan pinch panend pinchend', function (ev) {
+            //         if (ev.type == "doubletap") {
+            //             transform =
+            //                 "translate3d(0, 0, 0) " +
+            //                 "scale3d(2, 2, 1) ";
+            //             scale = 2;
+            //             last_scale = 2;
+            //             try {
+            //                 if (window.getComputedStyle(el, null).getPropertyValue('-webkit-transform').toString() != "matrix(1, 0, 0, 1, 0, 0)") {
+            //                     transform =
+            //                         "translate3d(0, 0, 0) " +
+            //                         "scale3d(1, 1, 1) ";
+            //                     scale = 1;
+            //                     last_scale = 1;
+            //                 }
+            //             } catch (err) { }
+            //             el.style.webkitTransform = transform;
+            //             transform = "";
+            //         }
+
+            //         //pan    
+            //         if (scale != 1) {
+            //             posX = last_posX + ev.deltaX;
+            //             posY = last_posY + ev.deltaY;
+            //             max_pos_x = Math.ceil((scale - 1) * el.clientWidth / 2);
+            //             max_pos_y = Math.ceil((scale - 1) * el.clientHeight / 2);
+            //             if (posX > max_pos_x) {
+            //                 posX = max_pos_x;
+            //             }
+            //             if (posX < -max_pos_x) {
+            //                 posX = -max_pos_x;
+            //             }
+            //             if (posY > max_pos_y) {
+            //                 posY = max_pos_y;
+            //             }
+            //             if (posY < -max_pos_y) {
+            //                 posY = -max_pos_y;
+            //             }
+            //         }
+
+
+            //         //pinch
+            //         if (ev.type == "pinch") {
+            //             scale = Math.max(.999, Math.min(last_scale * (ev.scale), 4));
+            //         }
+            //         if (ev.type == "pinchend") { last_scale = scale; }
+
+            //         //panend
+            //         if (ev.type == "panend") {
+            //             last_posX = posX < max_pos_x ? posX : max_pos_x;
+            //             last_posY = posY < max_pos_y ? posY : max_pos_y;
+            //         }
+
+            //         if (scale != 1) {
+            //             transform =
+            //                 "translate3d(" + posX + "px," + posY + "px, 0) " +
+            //                 "scale3d(" + scale + ", " + scale + ", 1)";
+            //         }
+
+            //         if (transform) {
+            //             el.style.webkitTransform = transform;
+            //         }
+            //     });
+            // }
+            // var myElement = document.getElementById('content');
+
+            // var mc = new Hammer.Manager(content);
+
+            // // create a pinch and rotate recognizer
+            // // these require 2 pointers
+            // var pinch = new Hammer.Pinch();
+            // var rotate = new Hammer.Rotate();
+
+            // // we want to detect both the same time
+            // pinch.recognizeWith(rotate);
+
+            // // add to the Manager
+            // mc.add([pinch, rotate]);
+
+
+            // mc.on("pinch rotate", function (ev) {
+            //     content.textContent += ev.type + " ";
+            // });
+
+            //Knapheidesi zoomen Ende
+
+            // //Knapheidesi versuch um das beim drehen des Handys mit zu skalieren Problem: das Bild wird jedes mal kleiner
+            // window.addEventListener('orientationchange', function () {
+            //     canvas.width = window.innerWidth;
+            //     canvas.height = window.innerWidth * 0.6;
+            // }, false);
+            // //Knapheidesi versuch um das beim drehen des Handys mit zu skalieren Problem: das Bild wird jedes mal kleiner Ende
+
+            //Knapheidesi hier muss abgefragt werden ob schon bearbeitet, oder wo anders einbinden, dass Bild geändert werden kann
             var Marker = function () {
                 this.Sprite = new Image();
                 this.Sprite.src = "http://www.clker.com/cliparts/w/O/e/P/x/i/map-marker-hi.png"
@@ -67,27 +178,33 @@
                 this.XPos = 0;
                 this.YPos = 0;
             }
+            //Knapheidesi hier muss abgefragt werden ob schon bearbeitet, oder wo anders einbinden, dass Bild geändert werden kann Ende
 
             var Markers = new Array();
 
-            var mouseClicked = function (mouse) {
-                // Get corrent mouse coords
-                var rect = canvas.getBoundingClientRect();
-                var mouseXPos = (mouse.x - rect.left);
-                var mouseYPos = (mouse.y - rect.top);
 
-                console.log("Marker added");
 
-                // Move the marker when placed to a better location
-                var marker = new Marker();
-                marker.XPos = mouseXPos - (marker.Width / 2);
-                marker.YPos = mouseYPos - marker.Height;
+            //Knapheidesi auskommentiert benötigt für den Admin Modus
+            // var mouseClicked = function (mouse) {
+            //     // Get corrent mouse coords
+            //     var rect = canvas.getBoundingClientRect();
+            //     var mouseXPos = (mouse.x - rect.left);
+            //     var mouseYPos = (mouse.y - rect.top);
 
-                Markers.push(marker);
-            }
+            //     console.log("Marker added");
+
+            //     // Move the marker when placed to a better location
+            //     var marker = new Marker();
+            //     marker.XPos = mouseXPos - (marker.Width / 2);
+            //     marker.YPos = mouseYPos - marker.Height;
+
+            //     Markers.push(marker);
+            // }
 
             // Add mouse click event listener to canvas
-            canvas.addEventListener("mousedown", mouseClicked, false);
+            // canvas.addEventListener("mousedown", mouseClicked, false);
+            //Knapheidesi auskommentiert benötigt für den Admin Modus
+
 
             var firstLoad = function () {
                 context.font = "15px Georgia";
@@ -100,9 +217,11 @@
                 draw();
             };
 
+
             var draw = function () {
-                // Clear Canvas
+                //Clear Canvas
                 context.fillStyle = "#000";
+
                 context.fillRect(0, 0, canvas.width, canvas.height);
 
                 // Draw map
@@ -110,51 +229,38 @@
                 // You can leave the image height and width off, if you do it will draw the image at default size
                 context.drawImage(mapSprite, 0, 0, canvas.width, canvas.height);
 
+                Marker.Sprite = new Image();
+                Marker.Sprite.src = "http://www.clker.com/cliparts/w/O/e/P/x/i/map-marker-hi.png"
+                context.drawImage(Marker.Sprite, canvas.width * 0.25, canvas.height * 0.25 , canvas.width * 0.048, canvas.height * 0.08);
+
                 // Draw markers
-                for (var i = 0; i < Markers.length; i++) {
-                    var tempMarker = Markers[i];
-                    // Draw marker
-                    context.drawImage(tempMarker.Sprite, tempMarker.XPos, tempMarker.YPos, tempMarker.Width, tempMarker.Height);
+                // for (var i = 0; i < Markers.length; i++) {
+                //     var tempMarker = Markers[i];
+                //     // Draw marker
+                //     context.drawImage(tempMarker.Sprite, tempMarker.XPos, tempMarker.YPos, tempMarker.Width, tempMarker.Height);
 
-                    // Calculate postion text
-                    var markerText = "Postion (X:" + tempMarker.XPos + ", Y:" + tempMarker.YPos;
+                //     // Calculate postion text
+                //     var markerText = "Postion (X:" + tempMarker.XPos + ", Y:" + tempMarker.YPos;
 
-                    // Draw a simple box so you can see the position
-                    var textMeasurements = context.measureText(markerText);
-                    context.fillStyle = "#666";
-                    context.globalAlpha = 0.7;
-                    context.fillRect(tempMarker.XPos - (textMeasurements.width / 2), tempMarker.YPos - 15, textMeasurements.width, 20);
-                    context.globalAlpha = 1;
+                //     // Draw a simple box so you can see the position
+                //     var textMeasurements = context.measureText(markerText);
+                //     context.fillStyle = "#666";
+                //     context.globalAlpha = 0.7;
+                //     context.fillRect(tempMarker.XPos - (textMeasurements.width / 2), tempMarker.YPos - 15, textMeasurements.width, 20);
+                //     context.globalAlpha = 1;
 
-                    // Draw position above
-                    context.fillStyle = "#000";
-                    context.fillText(markerText, tempMarker.XPos, tempMarker.YPos);
-                }
+                //     // Draw position above
+                //     context.fillStyle = "#000";
+                //     context.fillText(markerText, tempMarker.XPos, tempMarker.YPos);
+                // }
             };
+            setInterval(main, (1000 / 100)); // Refresh 100 times a second
 
-            setInterval(main, (1000 / 60)); // Refresh 60 times a second
 
 
-        </script> -->
-    </div>
-    <!-- <div>
-        <script>
-            var pinchZoom = new PinchZoomCanvas({
-                canvas: document.getElementById('Canvas'),
-                //path: "map.jpg",
-                momentum: true,
-                zoomMax: 2,
-                doubletap: true,
-                onZoomEnd: function (zoom, zoomed) {
-                    console.log("- is zoomed: %s", zoomed);
-                    console.log("- zoom end at %s", zoom);
-                },
-                onZoom: function (zoom) {
-                    console.log("- zoom is %s", zoom);
-                }
-            });
+                
         </script>
-    </div> -->
+    </div>
 
 </body>
 

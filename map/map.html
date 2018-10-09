@@ -17,21 +17,29 @@
 </head>
 
 <body>
+    <!-- START: navigation -->
     <div id="mySidebar" class="sidebar">
-        <a href="../javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-        <a href="../index.html" class="w3-bar-item w3-button w3-border-bottom"> <i class="fa fa-qrcode"></i> Scan</a>
-        <a href="../collection/collection.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-archive"></i>
-            Sammlung</a>
-        <a href="../map/map.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-map"></i> Karte</a>
-        <a href="../highscore/highscore.html" class="w3-bar-item w3-button w3-border-bottom"><i class="	fa fa-list-ol"></i>
-            Highscore</a>
-        <a href="../username/username.html" class="w3-bar-item w3-button "><i class="fa fa-send"></i> Beenden</a>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="../index.html"><i class="fa fa-qrcode"></i> Scan</a>
+        <a href="../map/map.html"><i class="fa fa-map"></i> Karte</a>
+        <a href="../highscore/highscore.html"><i class="fa fa-list-ol"></i> Highscores</a>
+        <a href="../username/username.html"><i class="fa fa-send"></i> Spiel beenden</a>
     </div>
-
     <div class="w3-bar w3-large">
-        <button class="openbtn" onclick="openNav()">☰ CampusRallye</button>  
+        <div style="display:block; text-align:left; float:left;">
+            <button class="openbtn" onclick="openNav()">☰ CampusRallye - Karte</button>
+        </div>
+        <div id="scoreCampusRallye" style="display:block; text-align:right;" class="score">
+            <script>
+                var scoreHeaderLine = localStorage.getItem("scoreCampusRallye");
+                if ((scoreHeaderLine == null) || (scoreHeaderLine == "NaN")) {
+                    scoreHeaderLine = "0";
+                }
+                document.getElementById("scoreCampusRallye").innerHTML = "Punkte: " + scoreHeaderLine;
+            </script>
+        </div>
     </div>
-    <center><h1><b>Karte</b></h1></center>
+    <!-- END: navigation -->
 
     <div id="content" class="w3-light-gray">
         <canvas id="Canvas"></canvas>
@@ -55,8 +63,8 @@
                 main();
             }
             //Knapheidesi Karte Responsive an Fenster anpassen Ende
-            
-            
+
+
             //Knapheidesi zoomen
             //https://stackoverflow.com/questions/18011099/pinch-to-zoom-using-hammer-js
 
@@ -231,7 +239,7 @@
 
                 Marker.Sprite = new Image();
                 Marker.Sprite.src = "http://www.clker.com/cliparts/w/O/e/P/x/i/map-marker-hi.png"
-                context.drawImage(Marker.Sprite, canvas.width * 0.25, canvas.height * 0.25 , canvas.width * 0.048, canvas.height * 0.08);
+                context.drawImage(Marker.Sprite, canvas.width * 0.25, canvas.height * 0.25, canvas.width * 0.048, canvas.height * 0.08);
 
                 // Draw markers
                 // for (var i = 0; i < Markers.length; i++) {
@@ -258,12 +266,13 @@
 
 
 
-                
+
         </script>
     </div>
 
 </body>
 
 
-
+<!-- functions -->
+<script src="../scanner.js"></script>
 </html>

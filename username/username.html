@@ -1,86 +1,87 @@
 <!DOCTYPE html>
 <html>
 
-<head>  
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../app.css">
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../app.css">
 
-    <meta charset="utf-8" />
-    <title>CampusRallye</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8" />
+	<title>CampusRallye - Spiel beenden</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	
-	
+
+
 </head>
 
 <body>
-    <div id="sideMenu" class="w3-sidebar w3-bar-block w3-border-right w3-large">
-        <button id="closeMenu" class="w3-bar-item w3-border-bottom"><i class="fa fa-times"></i> Schließen</button>
-		<!-- Knapheidesi anführende / gelöscht -->
-        <a href="../index.html" class="w3-bar-item w3-button w3-border-bottom"> <i class="fa fa-qrcode"></i> Scan</a>
-        <a href="../collection/collection.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-archive"></i> Sammlung</a>
-        <a href="../map/map.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-map"></i> Karte</a>
-		<a href="../highscore/highscore.html" class="w3-bar-item w3-button w3-border-bottom"><i class="	fa fa-list-ol"></i> Highscore</a>
-		<a href="../username/username.html" class="w3-bar-item w3-button "><i class="fa fa-send"></i> Beenden</a>
-    </div>
-
-	
-	
-   <div class="w3-bar w3-large"> 
-
-        <button id="navButton" class="w3-bar-item w3-button"> 
-            <i class="fa fa-bars"></i>
-        </button>
-		
-		<div class="w3-bar-item"> 
-			<a href="../index.html" class="w3-hover-lightgray" style="text-decoration:none">CampusRallye - Beenden </a>
-		</div>		
-
+	<!-- START: navigation -->
+	<div id="mySidebar" class="sidebar">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+		<a href="../index.html"><i class="fa fa-qrcode"></i> Scan</a>
+		<a href="../map/map.html"><i class="fa fa-map"></i> Karte</a>
+		<a href="../highscore/highscore.html"><i class="fa fa-list-ol"></i> Highscores</a>
+		<a href="../username/username.html"><i class="fa fa-send"></i> Spiel beenden</a>
 	</div>
+	<div class="w3-bar w3-large">
+		<div style="display:block; text-align:left; float:left;">
+			<button class="openbtn" onclick="openNav()">☰ CampusRallye - Spiel beenden</button>
+		</div>
+		<div id="scoreCampusRallye" style="display:block; text-align:right;" class="score">
+			<script>
+				var scoreHeaderLine = localStorage.getItem("scoreCampusRallye");
+				if ((scoreHeaderLine == null) || (scoreHeaderLine == "NaN")) {
+					scoreHeaderLine = "0";
+				}
+				document.getElementById("scoreCampusRallye").innerHTML = "Punkte: " + scoreHeaderLine;
+			</script>
+		</div>
+	</div>
+	<!-- END: navigation -->
 
 
-	<h1 align="center">Deine Punkte: </h1>  <!-- ToDo: einzeilig mit Punkteanzahl machen -->
-	
+	<h1 align="center">Deine Punkte: </h1> <!-- ToDo: einzeilig mit Punkteanzahl machen -->
+
 	<h1 id="score" align="center"></h1> <!-- ToDo: Punkte aus LocalCache einfügen -->
-	<script> <!-- ToDo: auslagern -->		 
+	<script> < !--ToDo: auslagern-- >
 	// Check browser support
-	if (typeof(Storage) !== "undefined") {
-    // Retrieve
-		document.getElementById("score").innerHTML = localStorage.getItem("score");
-	} else {
-		document.getElementById("score").innerHTML = "Sorry, your browser does not support Web Storage...";
-	}
+	if (typeof (Storage) !== "undefined") {
+			// Retrieve
+			document.getElementById("score").innerHTML = localStorage.getItem("score");
+		} else {
+			document.getElementById("score").innerHTML = "Sorry, your browser does not support Web Storage...";
+		}
 	</script>
-	
-
-	
-	<h2 id="text" align="center">Um das Spiel zu beenden und dich in die Rankingliste eintragen zu können, musst du deinen Namen angeben.</h2>
 
 
-		<p style="font-size: 18px" align="center">
-			Name:
-			<input id="username" type="text" name="username" autofocus>
-			<!-- <a href="../highscore/highscore.html"> -->
-				<button onclick="filled()" class="w3-button">Abschicken</button>
-			<!-- </a> -->
-		</p>
-		
+
+	<h2 id="text" align="center">Um das Spiel zu beenden und dich in die Rankingliste eintragen zu können, musst du deinen
+		Namen angeben.</h2>
+
+
+	<p style="font-size: 18px" align="center">
+		Name:
+		<input id="username" type="text" name="username" autofocus>
+		<!-- <a href="../highscore/highscore.html"> -->
+		<button onclick="filled()" class="w3-button">Abschicken</button>
+		<!-- </a> -->
+	</p>
+
 	<p id="confirmation" align="center" style="display:none">
 		Sind Sie sicher, dass Sie das Spiel beenden möchten?
 		<a href="../highscore/highscore.html" style="text-decoration:none">
 			<button id="yes" onclick="postuser()" style="display:none; margin:10px" class="w3-button">Ja</button>
-		</a> 
+		</a>
 		<button id="no" onclick="confirmation()" style="display:none" class="w3-button">Nein</button>
 	</p>
-	
+
 	<!-- ToDo: Username und Punktzahl an Server per jQuery $.Post() übergeben -->
 </body>
 
-	<script src="../navbarfunction.js"></script>	
-	<script src="userpost.js"></script>	
+<script src="../navbarfunction.js"></script>
+<script src="userpost.js"></script>
 
 
-
+<script src="../scanner.js"></script>
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <!-- sources -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -18,7 +19,7 @@
 
 
 <body>
-    <!-- navigation --> 
+    <!-- START: navigation -->
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
         <a href="../index.html"><i class="fa fa-qrcode"></i> Scan</a>
@@ -27,12 +28,23 @@
         <a href="../username/username.html"><i class="fa fa-send"></i> Spiel beenden</a>
     </div>
     <div class="w3-bar w3-large">
-        <button class="openbtn" onclick="openNav()">☰ CampusRallye</button>  
+        <div style="display:block; text-align:left; float:left;">
+            <button class="openbtn" onclick="openNav()">☰ CampusRallye - Scan</button>
+        </div>
+        <div id="scoreCampusRallye" style="display:block; text-align:right;" class="score">
+            <script>
+                var scoreHeaderLine = localStorage.getItem("scoreCampusRallye");
+                if ((scoreHeaderLine == null) || (scoreHeaderLine == "NaN")) {
+                    scoreHeaderLine = "0";
+                }
+                document.getElementById("scoreCampusRallye").innerHTML = "Punkte: " + scoreHeaderLine;
+            </script>
+        </div>
     </div>
-    <center><h1><b>Scan</b></h1></center>
+    <!-- END: navigation -->
 
     <!-- scanner (camera) -->
-    <div id="scannerCard"  class="w3-card w3-white">
+    <div id="scannerCard" class="w3-card w3-white">
         <div id="previewBox">
             <video id="preview"></video>
         </div>
@@ -46,4 +58,5 @@
 
 <!-- functions -->
 <script src="scanner.js"></script>
+
 </html>

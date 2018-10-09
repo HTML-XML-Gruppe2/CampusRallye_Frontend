@@ -1,26 +1,51 @@
 <!DOCTYPE html>
 <html>
 
-<head>  
+<head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../app.css">
 
     <meta charset="utf-8" />
-    <title>CampusRallye</title>
+    <title>CampusRallye - Highscores</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	
-	<!-- Öffnen/Schließen der Sidebar -->
-	<script src="../navbarfunction.js"></script>
-	<script src="gethighscore.js"></script>	
+
+    <!-- Öffnen/Schließen der Sidebar -->
+    <script src="../navbarfunction.js"></script>
+    <script src="gethighscore.js"></script>
 
 </head>
 
 <body>
+    <!-- START: navigation -->
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="../index.html"><i class="fa fa-qrcode"></i> Scan</a>
+        <a href="../map/map.html"><i class="fa fa-map"></i> Karte</a>
+        <a href="../highscore/highscore.html"><i class="fa fa-list-ol"></i> Highscores</a>
+        <a href="../username/username.html"><i class="fa fa-send"></i> Spiel beenden</a>
+    </div>
+    <div class="w3-bar w3-large">
+        <div style="display:block; text-align:left; float:left;">
+            <button class="openbtn" onclick="openNav()">☰ CampusRallye - Highscores</button>
+        </div>
+        <div id="scoreCampusRallye" style="display:block; text-align:right;" class="score">
+            <script>
+                var scoreHeaderLine = localStorage.getItem("scoreCampusRallye");
+                if ((scoreHeaderLine == null) || (scoreHeaderLine == "NaN")) {
+                    scoreHeaderLine = "0";
+                }
+                document.getElementById("scoreCampusRallye").innerHTML = "Punkte: " + scoreHeaderLine;
+            </script>
+        </div>
+    </div>
+    <!-- END: navigation -->
+
+    <!--    
     <div id="sideMenu" class="w3-sidebar w3-bar-block w3-border-right w3-large">
         <button id="closeMenu" class="w3-bar-item w3-border-bottom"><i class="fa fa-times"></i> Schließen</button>
-		<!-- Knapheidesi anführende / gelöscht -->
+		Knapheidesi anführende / gelöscht 
         <a href="../index.html" class="w3-bar-item w3-button w3-border-bottom"> <i class="fa fa-qrcode"></i> Scan</a>
         <a href="../collection/collection.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-archive"></i> Sammlung</a>
         <a href="../map/map.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-map"></i> Karte</a>
@@ -33,21 +58,23 @@
             <i class="fa fa-bars"></i>
         </button>
 		
-		<!-- ToDo: Ausgabe mittig -->
+		ToDo: Ausgabe mittig 
         <div class="w3-bar-item"> 
 			<a href="../index.html" class="w3-hover-lightgray" style="text-decoration:none">CampusRallye - Highscore </a>
 		</div>	
-	</div>
+    </div>
+    -->
 
 
-	<h1 align="center">Highscore</h1>  
-	<p id="scorelist"></p>
-	<!-- ToDo: Highscore einfügen -->
-		<!-- ToDo: jQuery $.get() Method einfügen -->
-		<!-- ToDo: callback aus get() formatiert anzeigen lassen -->
-		<!-- ToDo: in JS Datei auslagern -->
+    <h1 align="center">Highscore</h1>
+    <p id="scorelist"></p>
+    <!-- ToDo: Highscore einfügen -->
+    <!-- ToDo: jQuery $.get() Method einfügen -->
+    <!-- ToDo: callback aus get() formatiert anzeigen lassen -->
+    <!-- ToDo: in JS Datei auslagern -->
 </body>
 
 
-
+<!-- functions -->
+<script src="../scanner.js"></script>
 </html>

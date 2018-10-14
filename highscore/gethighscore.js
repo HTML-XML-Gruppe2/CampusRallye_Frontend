@@ -1,12 +1,12 @@
 $(document).ready(function(){
 
 // ToDo: Highscore auslesen
-// $.get("/api/scores", function(data, status){
-        // alert("Data: " + data + "\nStatus: " + status);
-    // });
+ $.get("/api/scores", function(data, status){
+         alert("Data: " + data + "\nStatus: " + status);
+     });
 	
-	var data = [{name:"Jan", score:16},{name:"Tim", score:1},{name:"Peter", score:20}, {name:"Meike", score:0}];   /* ToDo: Testdaten raus */
-	console.log(data);  /* ToDo: Testdaten raus */
+	//var data = [{name:"Jan", score:16},{name:"Tim", score:1},{name:"Peter", score:20}, {name:"Meike", score:0}];   /* ToDo: Testdaten raus */
+	//console.log(data);  /* ToDo: Testdaten raus */
 
 	// Array nach Punkteanzahl sortieren
 	data.sort(function(a,b){return b.score - a.score});
@@ -26,7 +26,7 @@ $(document).ready(function(){
 		highscore += "<tr> <td>" + place + ". </td> <td>"+ value.name + "</td> <td>" + value.score + textpunkte + "</td> </tr>";
 		place++;
 	}
-	console.log(highscore);	/* ToDo: Testdaten raus */
+	//console.log(highscore);	/* ToDo: Testdaten raus */
 	document.getElementById("scorelist").innerHTML = highscore;
  
 });

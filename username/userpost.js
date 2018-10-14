@@ -16,7 +16,6 @@ function confirmation() {
 	var yes = document.getElementById("yes"); 
 	var no = document.getElementById("no");
 	 
-	console.log("TEst");
 	if (confirmation.style.display === "none") {
         confirmation.style.display = "block";
     } else {
@@ -47,12 +46,12 @@ function postuser(){
 	 var punkte = localStorage.getItem("scoreCampusRallye");
 	
 	
-	 /*alert(punkte); +/			ToDo: wieder reinnehmen
-	 /*  $.post("/api/scores",
+	 //alert(punkte); +/			ToDo: wieder reinnehmen
+	   $.post("/api/scores",
 		{
         name: username,
-        punkte: punkte
-		}); */
+        score: punkte
+		}); 
 	 
 	
 	 localStorage.removeItem("scoreCampusRallye");

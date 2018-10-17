@@ -47,176 +47,63 @@
     <div>
 
         <script>
+            var Markers = new Array();
             var canvas = document.getElementById('Canvas');
             var context = canvas.getContext("2d");
-            canvas.width = window.innerWidth * 0.97;
+            canvas.width = window.innerWidth;
             canvas.height = canvas.width * 0.583;
             // Map sprite
             var mapSprite = new Image();
             mapSprite.src = "map.jpg";
 
-            //Knapheidesi Karte Responsive an Fenster anpassen
+            //START:Knapheidesi Karte Responsive an Fenster anpassen
             window.addEventListener("resize", handleResize);
             function handleResize() {
                 canvas.width = window.innerWidth * 0.97;
                 canvas.height = canvas.width * 0.583;
                 main();
             }
-            //Knapheidesi Karte Responsive an Fenster anpassen Ende
+            window.addEventListener('orientationchange', handleResize);
+            //END:Knapheidesi Karte Responsive an Fenster anpassen 
 
+            //START:Knapheidesi hier muss abgefragt werden ob schon bearbeitet, oder wo anders einbinden, dass Bild geändert werden kann
+            function getthemarkerdatat() {
+                // build request URL (/api/object/[_id])
+                var requestURL = "https://localhost:8080/api/objects/basic";
 
-            //Knapheidesi zoomen
-            //https://stackoverflow.com/questions/18011099/pinch-to-zoom-using-hammer-js
-
-            // function hammerIt(canvas) {
-            //     hammertime = new Hammer(canvas, {});
-            //     hammertime.get('pinch').set({
-            //         enable: true
-            //     });
-            //     var posX = 0,
-            //         posY = 0,
-            //         scale = 1,
-            //         last_scale = 1,
-            //         last_posX = 0,
-            //         last_posY = 0,
-            //         max_pos_x = 0,
-            //         max_pos_y = 0,
-            //         transform = "",
-            //         el = canvas;
-
-            //     hammertime.on('doubletap pan pinch panend pinchend', function (ev) {
-            //         if (ev.type == "doubletap") {
-            //             transform =
-            //                 "translate3d(0, 0, 0) " +
-            //                 "scale3d(2, 2, 1) ";
-            //             scale = 2;
-            //             last_scale = 2;
-            //             try {
-            //                 if (window.getComputedStyle(el, null).getPropertyValue('-webkit-transform').toString() != "matrix(1, 0, 0, 1, 0, 0)") {
-            //                     transform =
-            //                         "translate3d(0, 0, 0) " +
-            //                         "scale3d(1, 1, 1) ";
-            //                     scale = 1;
-            //                     last_scale = 1;
-            //                 }
-            //             } catch (err) { }
-            //             el.style.webkitTransform = transform;
-            //             transform = "";
-            //         }
-
-            //         //pan    
-            //         if (scale != 1) {
-            //             posX = last_posX + ev.deltaX;
-            //             posY = last_posY + ev.deltaY;
-            //             max_pos_x = Math.ceil((scale - 1) * el.clientWidth / 2);
-            //             max_pos_y = Math.ceil((scale - 1) * el.clientHeight / 2);
-            //             if (posX > max_pos_x) {
-            //                 posX = max_pos_x;
-            //             }
-            //             if (posX < -max_pos_x) {
-            //                 posX = -max_pos_x;
-            //             }
-            //             if (posY > max_pos_y) {
-            //                 posY = max_pos_y;
-            //             }
-            //             if (posY < -max_pos_y) {
-            //                 posY = -max_pos_y;
-            //             }
-            //         }
-
-
-            //         //pinch
-            //         if (ev.type == "pinch") {
-            //             scale = Math.max(.999, Math.min(last_scale * (ev.scale), 4));
-            //         }
-            //         if (ev.type == "pinchend") { last_scale = scale; }
-
-            //         //panend
-            //         if (ev.type == "panend") {
-            //             last_posX = posX < max_pos_x ? posX : max_pos_x;
-            //             last_posY = posY < max_pos_y ? posY : max_pos_y;
-            //         }
-
-            //         if (scale != 1) {
-            //             transform =
-            //                 "translate3d(" + posX + "px," + posY + "px, 0) " +
-            //                 "scale3d(" + scale + ", " + scale + ", 1)";
-            //         }
-
-            //         if (transform) {
-            //             el.style.webkitTransform = transform;
-            //         }
-            //     });
-            // }
-            // var myElement = document.getElementById('content');
-
-            // var mc = new Hammer.Manager(content);
-
-            // // create a pinch and rotate recognizer
-            // // these require 2 pointers
-            // var pinch = new Hammer.Pinch();
-            // var rotate = new Hammer.Rotate();
-
-            // // we want to detect both the same time
-            // pinch.recognizeWith(rotate);
-
-            // // add to the Manager
-            // mc.add([pinch, rotate]);
-
-
-            // mc.on("pinch rotate", function (ev) {
-            //     content.textContent += ev.type + " ";
-            // });
-
-            //Knapheidesi zoomen Ende
-
-            // //Knapheidesi versuch um das beim drehen des Handys mit zu skalieren Problem: das Bild wird jedes mal kleiner
-            // window.addEventListener('orientationchange', function () {
-            //     canvas.width = window.innerWidth;
-            //     canvas.height = window.innerWidth * 0.6;
-            // }, false);
-            // //Knapheidesi versuch um das beim drehen des Handys mit zu skalieren Problem: das Bild wird jedes mal kleiner Ende
-
-            //Knapheidesi hier muss abgefragt werden ob schon bearbeitet, oder wo anders einbinden, dass Bild geändert werden kann
+                // request information for ID from backend (data in contained in var object as JSON)
+                $.get(requestURL, function (object) {
+                    for (var i = 0; i < object.length; i++) {
+                        createMarker(object[i]._id, object[i].position.x, object[i].position.y);
+                        console.log(object);
+                    }
+                });
+            }
             var Marker = function () {
                 this.Sprite = new Image();
-                this.Sprite.src = "http://www.clker.com/cliparts/w/O/e/P/x/i/map-marker-hi.png"
+                this.Sprite.src = "offenemarker.png";
                 this.Width = 12;
                 this.Height = 20;
                 this.XPos = 0;
                 this.YPos = 0;
             }
-            //Knapheidesi hier muss abgefragt werden ob schon bearbeitet, oder wo anders einbinden, dass Bild geändert werden kann Ende
+            function createMarker(OId, XPosi, YPosi) {
+                var marker = new Marker();
+                marker.XPos = XPosi;
+                marker.YPos = YPosi;
+                var objectID = localStorage.getItem(OId);
+                if (objectID !== null) {
+                    this.Sprite.src = "fertigemarker.png";
+                }
+                Markers.push(marker);
+            }
 
-            var Markers = new Array();
-
-
-
-            //Knapheidesi auskommentiert benötigt für den Admin Modus
-            // var mouseClicked = function (mouse) {
-            //     // Get corrent mouse coords
-            //     var rect = canvas.getBoundingClientRect();
-            //     var mouseXPos = (mouse.x - rect.left);
-            //     var mouseYPos = (mouse.y - rect.top);
-
-            //     console.log("Marker added");
-
-            //     // Move the marker when placed to a better location
-            //     var marker = new Marker();
-            //     marker.XPos = mouseXPos - (marker.Width / 2);
-            //     marker.YPos = mouseYPos - marker.Height;
-
-            //     Markers.push(marker);
-            // }
-
-            // Add mouse click event listener to canvas
-            // canvas.addEventListener("mousedown", mouseClicked, false);
-            //Knapheidesi auskommentiert benötigt für den Admin Modus
-
+            //END:Knapheidesi hier muss abgefragt werden ob schon bearbeitet, oder wo anders einbinden, dass Bild geändert werden kann 
 
             var firstLoad = function () {
                 context.font = "15px Georgia";
                 context.textAlign = "center";
+                getthemarkerdatat();
             }
 
             firstLoad();
@@ -227,6 +114,7 @@
 
 
             var draw = function () {
+                console.log(Markers);
                 //Clear Canvas
                 context.fillStyle = "#000";
 
@@ -237,30 +125,30 @@
                 // You can leave the image height and width off, if you do it will draw the image at default size
                 context.drawImage(mapSprite, 0, 0, canvas.width, canvas.height);
 
-                Marker.Sprite = new Image();
-                Marker.Sprite.src = "http://www.clker.com/cliparts/w/O/e/P/x/i/map-marker-hi.png"
-                context.drawImage(Marker.Sprite, canvas.width * 0.25, canvas.height * 0.25, canvas.width * 0.048, canvas.height * 0.08);
+                // Marker.Sprite = new Image();
+                // Marker.Sprite.src = "http://www.clker.com/cliparts/w/O/e/P/x/i/map-marker-hi.png"
+                // context.drawImage(Marker.Sprite, canvas.width * 0.25, canvas.height * 0.25, canvas.width * 0.048, canvas.height * 0.08);
 
                 // Draw markers
-                // for (var i = 0; i < Markers.length; i++) {
-                //     var tempMarker = Markers[i];
-                //     // Draw marker
-                //     context.drawImage(tempMarker.Sprite, tempMarker.XPos, tempMarker.YPos, tempMarker.Width, tempMarker.Height);
+                for (var i = 0; i < Markers.length; i++) {
+                    var tempMarker = Markers[i];
+                    // Draw marker
+                    context.drawImage(tempMarker.Sprite, tempMarker.XPos * canvas.width, tempMarker.YPos * canvas.height, canvas.width * 0.048, canvas.height * 0.08);
 
-                //     // Calculate postion text
-                //     var markerText = "Postion (X:" + tempMarker.XPos + ", Y:" + tempMarker.YPos;
+                    // // Calculate postion text
+                    // var markerText = "Postion (X:" + tempMarker.XPos + ", Y:" + tempMarker.YPos;
 
-                //     // Draw a simple box so you can see the position
-                //     var textMeasurements = context.measureText(markerText);
-                //     context.fillStyle = "#666";
-                //     context.globalAlpha = 0.7;
-                //     context.fillRect(tempMarker.XPos - (textMeasurements.width / 2), tempMarker.YPos - 15, textMeasurements.width, 20);
-                //     context.globalAlpha = 1;
+                    // // Draw a simple box so you can see the position
+                    // var textMeasurements = context.measureText(markerText);
+                    // context.fillStyle = "#666";
+                    // context.globalAlpha = 0.7;
+                    // context.fillRect(tempMarker.XPos - (textMeasurements.width / 2), tempMarker.YPos - 15, textMeasurements.width, 20);
+                    // context.globalAlpha = 1;
 
-                //     // Draw position above
-                //     context.fillStyle = "#000";
-                //     context.fillText(markerText, tempMarker.XPos, tempMarker.YPos);
-                // }
+                    // // Draw position above
+                    // context.fillStyle = "#000";
+                    // context.fillText(markerText, tempMarker.XPos, tempMarker.YPos);
+                }
             };
             setInterval(main, (1000 / 100)); // Refresh 100 times a second
 
@@ -272,7 +160,7 @@
 
 </body>
 
-
 <!-- functions -->
 <script src="../scanner.js"></script>
+
 </html>

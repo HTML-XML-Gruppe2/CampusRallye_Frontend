@@ -41,14 +41,12 @@
 	<!-- END: navigation -->
 
 
-	<h1 align="center">Deine Punkte: </h1> <!-- ToDo: einzeilig mit Punkteanzahl machen -->
-
 	<h1 id="score" align="center"></h1> <!-- ToDo: Punkte aus LocalCache einfügen -->
-	<script> < !--ToDo: auslagern-- >
+	<script>
 	// Check browser support
 	if (typeof (Storage) !== "undefined") {
 			// Retrieve
-			document.getElementById("score").innerHTML = localStorage.getItem("score");
+			document.getElementById("score").innerHTML = "Deine Punkte: " + localStorage.getItem("scoreCampusRallye");
 		} else {
 			document.getElementById("score").innerHTML = "Sorry, your browser does not support Web Storage...";
 		}

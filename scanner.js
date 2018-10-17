@@ -101,7 +101,7 @@ function onScan(content) {
         console.log(object);
 
         // check if ID/object has already been processed (played by user) - data will be set in local storage
-        if (1 == 2) { // disable function as long in test mode
+        if (1 !== 2) { // disable function as long in test mode
             var objectID = localStorage.getItem(object._id);
             if (objectID !== null) {
                 let cardAlreadyProcessed = createCard(object.name, "");
@@ -266,6 +266,12 @@ function saveAnswers(object) {
     // remove confirm elements so that user can't confirm twice
     document.getElementById("buttonSend").remove();
     document.getElementById("textSend").remove();
+
+    var scoreHeaderLine = localStorage.getItem("scoreCampusRallye");
+    if ((scoreHeaderLine == null) || (scoreHeaderLine == "NaN")) {
+        scoreHeaderLine = "0";
+    }
+    document.getElementById("scoreCampusRallye").innerHTML = "Punkte: " + scoreHeaderLine;
 }
 
 

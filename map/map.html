@@ -50,7 +50,11 @@
             var Markers = new Array();
             var canvas = document.getElementById('Canvas');
             var context = canvas.getContext("2d");
-            canvas.width = window.innerWidth;
+            // Make it visually fill the positioned parent
+            canvas.style.width = '100%';
+            canvas.style.height = canvas.style.width * 0.583;
+            // ...then set the internal size to match
+            canvas.width = canvas.offsetWidth;
             canvas.height = canvas.width * 0.583;
             // Map sprite
             var mapSprite = new Image();
@@ -59,7 +63,11 @@
             //START:Knapheidesi Karte Responsive an Fenster anpassen
             window.addEventListener("resize", handleResize);
             function handleResize() {
-                canvas.width = window.innerWidth * 0.97;
+                // Make it visually fill the positioned parent
+                canvas.style.width = '100%';
+                canvas.style.height = canvas.style.width * 0.583;
+                // ...then set the internal size to match
+                canvas.width = canvas.offsetWidth;
                 canvas.height = canvas.width * 0.583;
                 main();
             }

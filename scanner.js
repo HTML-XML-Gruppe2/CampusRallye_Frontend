@@ -64,7 +64,7 @@ $(document).ready(function () {
     $("#closeMenu").click(function () {
         $("#sideMenu").css("display", "none");
     });
-    onScan("");
+    onScan("https://localhost:8080/api/object/5bc78f30ecd59032808c890e");
 });
 
 
@@ -77,9 +77,9 @@ $(document).ready(function () {
     4. Process information for frontend
 */
 function onScan(content) {
-    // test data QR code
-    //content = "https://localhost:8080/5b9cfefa1e77bd3470c2041f";
-    content = "https://localhost:8080/5bb5b782d5cf59207c30c37b";
+    if (content == "") {
+        return;
+    }
 
     // reset view in order to only show current information
     $("#cardList").empty();
@@ -101,19 +101,23 @@ function onScan(content) {
         console.log(object);
 
         // check if ID/object has already been processed (played by user) - data will be set in local storage
-        if (1 !== 2) { // disable function as long in test mode
-            var objectID = localStorage.getItem(object._id);
-            if (objectID !== null) {
-                let cardAlreadyProcessed = createCard(object.name, "");
-                let cardAlreadyProcessedContent = "<b>Hier bist du schon gewesen! Suche nach anderen QR-Codes der CampusRallye und beantworte weitere Fragen!</b>";
-                cardAlreadyProcessedContent += "<br><br>";
-                cardAlreadyProcessedContent += object.description;
-                cardAlreadyProcessedContent = $("<div class='w3-container'></div>").html(cardAlreadyProcessedContent);
-                cardAlreadyProcessed.append(cardAlreadyProcessedContent);
-                $("#cardList").append(cardAlreadyProcessed);
-                return;
+        var visitedObjectsCampusRallye = localStorage.getItem("visitedObjectsCampusRallye");
+        var visitedObjectsCampusRallyeJSON = JSON.parse(visitedObjectsCampusRallye);
+        if (visitedObjectsCampusRallyeJSON !== null) {
+            for (n in visitedObjectsCampusRallyeJSON.visitedObjects) {
+                if (object._id == visitedObjectsCampusRallyeJSON.visitedObjects[n]._id) {
+                    let cardAlreadyProcessed = createCard(object.name, "");
+                    let cardAlreadyProcessedContent = "<b>Hier bist du schon gewesen! Suche nach anderen QR-Codes der CampusRallye und beantworte weitere Fragen!</b>";
+                    cardAlreadyProcessedContent += "<br><br>";
+                    cardAlreadyProcessedContent += object.description;
+                    cardAlreadyProcessedContent = $("<div class='w3-container'></div>").html(cardAlreadyProcessedContent);
+                    cardAlreadyProcessed.append(cardAlreadyProcessedContent);
+                    $("#cardList").append(cardAlreadyProcessed);
+                    return;
+                }
             }
         }
+
 
         // display general information about the object
         let cardGeneralInformation = createCard(object.name, object.description);
@@ -234,7 +238,7 @@ function saveAnswers(object) {
         scoreCampusRallye = 0;
     }
     new Number(scoreCampusRallye);
-    var visitedObjectsCampusRallye = localStorage.getItem("visitedObjectsCampusRallye")
+    var visitedObjectsCampusRallye = localStorage.getItem("visitedObjectsCampusRallye");
     if (visitedObjectsCampusRallye == null) {
         visitedObjectsCampusRallye = "{\"visitedObjects\":[]}";
     }

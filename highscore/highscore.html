@@ -21,6 +21,7 @@
     <!-- START: navigation -->
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="../manual/manual.html"><i class="fa fa-book"></i> Anleitung</a>
         <a href="../index.html"><i class="fa fa-qrcode"></i> Scan</a>
         <a href="../map/map.html"><i class="fa fa-map"></i> Karte</a>
         <a href="../highscore/highscore.html"><i class="fa fa-list-ol"></i> Highscores</a>
@@ -28,7 +29,7 @@
     </div>
     <div class="w3-bar w3-large">
         <div style="display:block; text-align:left; float:left;">
-            <button class="openbtn" onclick="openNav()">☰ CampusRallye - Highscores</button>
+            <button class="openbtn" onclick="openNav()">☰ CampusRallye</button>
         </div>
         <div id="scoreCampusRallye" style="display:block; text-align:right;" class="score">
             <script>
@@ -42,39 +43,14 @@
     </div>
     <!-- END: navigation -->
 
-    <!--    
-    <div id="sideMenu" class="w3-sidebar w3-bar-block w3-border-right w3-large">
-        <button id="closeMenu" class="w3-bar-item w3-border-bottom"><i class="fa fa-times"></i> Schließen</button>
-		Knapheidesi anführende / gelöscht 
-        <a href="../index.html" class="w3-bar-item w3-button w3-border-bottom"> <i class="fa fa-qrcode"></i> Scan</a>
-        <a href="../collection/collection.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-archive"></i> Sammlung</a>
-        <a href="../map/map.html" class="w3-bar-item w3-button w3-border-bottom"><i class="fa fa-map"></i> Karte</a>
-		<a href="../highscore/highscore.html" class="w3-bar-item w3-button w3-border-bottom"><i class="	fa fa-list-ol"></i> Highscore</a>
-		<a href="../username/username.html" class="w3-bar-item w3-button "><i class="fa fa-send"></i> Beenden</a>
+    <div id="scannerCard" class="w3-card w3-white">
+        <h1 align="center">Highscores</h1>
+        <p id="scorelist"></p>
     </div>
-
-    <div class="w3-bar w3-large">
-        <button id="navButton" class="w3-bar-item w3-button">
-            <i class="fa fa-bars"></i>
-        </button>
-		
-		ToDo: Ausgabe mittig 
-        <div class="w3-bar-item"> 
-			<a href="../index.html" class="w3-hover-lightgray" style="text-decoration:none">CampusRallye - Highscore </a>
-		</div>	
-    </div>
-    -->
-
-
-    <h1 align="center">Highscore</h1>
-    <p id="scorelist"></p>
-    <!-- ToDo: Highscore einfügen -->
-    <!-- ToDo: jQuery $.get() Method einfügen -->
-    <!-- ToDo: callback aus get() formatiert anzeigen lassen -->
-    <!-- ToDo: in JS Datei auslagern -->
 </body>
 
 
 <!-- functions -->
 <script src="../scanner.js"></script>
+
 </html>

@@ -6,7 +6,7 @@ $(document).ready(function () {
 
 		var highscore, place;
 		place = 1;
-		highscore = "<div class='w3-responsive'><table class='w3-table-all' style='width: 90%' align='center'>"; /*"<table> <tr> <th> Platz </th> <th> Name </th> <th> Punkte </th> </tr>";		/* ToDo: Anzeige mittig */
+		highscore = "<div class='w3-responsive'><table class='w3-table-all' style='width: 100%' align='center'>"; /*"<table> <tr> <th> Platz </th> <th> Name </th> <th> Punkte </th> </tr>";		/* ToDo: Anzeige mittig */
 		data.forEach(print);
 		function print(value) {
 			let textpunkte;

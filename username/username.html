@@ -43,7 +43,7 @@
 
 	<div id="scannerCard" class="w3-card w3-white">
 		<h1 align="center">Spiel beenden</h1>
-		<p id="score" align="center"></p> <!-- ToDo: Punkte aus LocalCache einfügen -->
+		<p id="score"></p> <!-- ToDo: Punkte aus LocalCache einfügen -->
 		<script>
 			// Check browser support
 			if (typeof (Storage) !== "undefined") {
@@ -54,28 +54,18 @@
 			}
 		</script>
 
+		<p id="text" align="justify">Um das Spiel zu beenden und dich in die Rankingliste eintragen zu können, musst du deinen Namen angeben.</p>
 
-
-		<p id="text" align="center">Um das Spiel zu beenden und dich in die Rankingliste eintragen zu können, musst du
-			deinen
-			Namen angeben.</p>
-
-
-		<p style="font-size: 18px" align="center">
-			Name:
-			<input id="username" type="text" name="username" autofocus>
-			<!-- <a href="../highscore/highscore.html"> -->
-			<button onclick="filled()">Abschicken</button>
-			<!-- </a> -->
-		</p>
-
+		<p>Name: <input id="username" type="text" name="username" autofocus><br><br></p>
+		<p align="center"><button onclick="filled()">Abschicken</button></p>
+		
 		<p id="confirmation" align="center" style="display:none">
 			Sind Sie sicher, dass Sie das Spiel beenden möchten?
 			<a href="../highscore/highscore.html" style="text-decoration:none">
 				<button id="yes" onclick="postuser()" style="display:none; margin:10px">Ja</button>
 			</a>
 			<button id="no" onclick="confirmation()" style="display:none">Nein</button>
-		</p>
+		</p></div>
 	</div>
 	<!-- ToDo: Username und Punktzahl an Server per jQuery $.Post() übergeben -->
 </body>

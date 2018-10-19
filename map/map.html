@@ -20,6 +20,7 @@
     <!-- START: navigation -->
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="../manual/manual.html"><i class="fa fa-book"></i> Anleitung</a>
         <a href="../index.html"><i class="fa fa-qrcode"></i> Scan</a>
         <a href="../map/map.html"><i class="fa fa-map"></i> Karte</a>
         <a href="../highscore/highscore.html"><i class="fa fa-list-ol"></i> Highscores</a>
@@ -27,7 +28,7 @@
     </div>
     <div class="w3-bar w3-large">
         <div style="display:block; text-align:left; float:left;">
-            <button class="openbtn" onclick="openNav()">☰ CampusRallye - Karte</button>
+            <button class="openbtn" onclick="openNav()">☰ CampusRallye</button>
         </div>
         <div id="scoreCampusRallye" style="display:block; text-align:right;" class="score">
             <script>
@@ -41,7 +42,9 @@
     </div>
     <!-- END: navigation -->
 
-    <div id="content" class="w3-light-gray">
+
+    <div id="content" class="w3-card w3-white">
+        <h1 align ="center">Karte</h1>
         <canvas id="Canvas"></canvas>
     </div>
     <div>
@@ -79,11 +82,11 @@
             //END:Knapheidesi Karte Responsive an Fenster anpassen
 
             //START:Knapheidesi Zum testen einen Marker zu bearbeitet hinzugefügt
-            var visitedObjectsCampusRallye = localStorage.getItem("visitedObjectsCampusRallye");
-            var visitedObjectsCampusRallyeJSON = JSON.parse(visitedObjectsCampusRallye);
-            visitedObjectsCampusRallyeJSON['visitedObjects'].push({ "_id": '5bc7a042113fa655f46a8a3e', "name": 'Test' });
-            visitedObjectsCampusRallye = JSON.stringify(visitedObjectsCampusRallyeJSON);
-            localStorage.setItem("visitedObjectsCampusRallye", visitedObjectsCampusRallye);
+            // var visitedObjectsCampusRallye = localStorage.getItem("visitedObjectsCampusRallye");
+            // var visitedObjectsCampusRallyeJSON = JSON.parse(visitedObjectsCampusRallye);
+            // visitedObjectsCampusRallyeJSON['visitedObjects'].push({ "_id": '5bc7a042113fa655f46a8a3e', "name": 'Test' });
+            // visitedObjectsCampusRallye = JSON.stringify(visitedObjectsCampusRallyeJSON);
+            // localStorage.setItem("visitedObjectsCampusRallye", visitedObjectsCampusRallye);
             //END:Knapheidesi Zum testen einen Marker zu bearbeitet hinzugefügt
 
             // function hammerIt(elm) {
@@ -217,60 +220,62 @@
                 getthemarkerdatat();
             }
 
-            firstLoad();
+                //END:Knapheidesi hier muss abgefragt werden ob schon bearbeitet, oder wo anders einbinden, dass Bild geändert werden kann 
 
-            var main = function () {
-                draw();
-            };
-
-            var draw = function () {
-                //Clear Canvas
-                context.fillStyle = "#000";
-                // hammerIt(document.getElementById("Canvas"));
-
-                context.fillRect(0, 0, canvas.width, canvas.height);
-
-                // Draw map
-                // Sprite, X location, Y location, Image width, Image height
-                // You can leave the image height and width off, if you do it will draw the image at default size
-                context.drawImage(mapSprite, 0, 0, canvas.width, canvas.height);
-
-                // Marker.Sprite = new Image();
-                // Marker.Sprite.src = "http://www.clker.com/cliparts/w/O/e/P/x/i/map-marker-hi.png"
-                // context.drawImage(Marker.Sprite, canvas.width * 0.25, canvas.height * 0.25, canvas.width * 0.048, canvas.height * 0.08);
-
-                // Draw markers
-                for (var i = 0; i < Markers.length; i++) {
-                    var tempMarker = Markers[i];
-                    // Draw marker
-                    context.drawImage(tempMarker.Sprite, tempMarker.XPos * canvas.width, tempMarker.YPos * canvas.height, canvas.width * 0.048, canvas.height * 0.08);
-
-                    // // Calculate postion text
-                    // var markerText = "Postion (X:" + tempMarker.XPos + ", Y:" + tempMarker.YPos;
-
-                    // // Draw a simple box so you can see the position
-                    // var textMeasurements = context.measureText(markerText);
-                    // context.fillStyle = "#666";
-                    // context.globalAlpha = 0.7;
-                    // context.fillRect(tempMarker.XPos - (textMeasurements.width / 2), tempMarker.YPos - 15, textMeasurements.width, 20);
-                    // context.globalAlpha = 1;
-
-                    // // Draw position above
-                    // context.fillStyle = "#000";
-                    // context.fillText(markerText, tempMarker.XPos, tempMarker.YPos);
+                var firstLoad = function () {
+                    context.font = "15px Georgia";
+                    context.textAlign = "center";
+                    getthemarkerdatat();
                 }
-            };
-            setInterval(main, (1000 / 60)); // Refresh 60 times a second
-            // hammerIt(document.getElementById("Canvas"));
+
+                firstLoad();
+
+                var main = function () {
+                    draw();
+                };
 
 
+                var draw = function () {
+                    console.log(Markers);
+                    //Clear Canvas
+                    context.fillStyle = "#000";
 
+                    context.fillRect(0, 0, canvas.width, canvas.height);
 
+                    // Draw map
+                    // Sprite, X location, Y location, Image width, Image height
+                    // You can leave the image height and width off, if you do it will draw the image at default size
+                    context.drawImage(mapSprite, 0, 0, canvas.width, canvas.height);
 
+                    // Marker.Sprite = new Image();
+                    // Marker.Sprite.src = "http://www.clker.com/cliparts/w/O/e/P/x/i/map-marker-hi.png"
+                    // context.drawImage(Marker.Sprite, canvas.width * 0.25, canvas.height * 0.25, canvas.width * 0.048, canvas.height * 0.08);
 
-        </script>
+                    // Draw markers
+                    for (var i = 0; i < Markers.length; i++) {
+                        var tempMarker = Markers[i];
+                        // Draw marker
+                        context.drawImage(tempMarker.Sprite, tempMarker.XPos * canvas.width, tempMarker.YPos * canvas.height, canvas.width * 0.048, canvas.height * 0.08);
+
+                        // // Calculate postion text
+                        // var markerText = "Postion (X:" + tempMarker.XPos + ", Y:" + tempMarker.YPos;
+
+                        // // Draw a simple box so you can see the position
+                        // var textMeasurements = context.measureText(markerText);
+                        // context.fillStyle = "#666";
+                        // context.globalAlpha = 0.7;
+                        // context.fillRect(tempMarker.XPos - (textMeasurements.width / 2), tempMarker.YPos - 15, textMeasurements.width, 20);
+                        // context.globalAlpha = 1;
+
+                        // // Draw position above
+                        // context.fillStyle = "#000";
+                        // context.fillText(markerText, tempMarker.XPos, tempMarker.YPos);
+                    }
+                };
+                setInterval(main, (1000 / 100)); // Refresh 100 times a second
+            </script>
+        </div>
     </div>
-
 </body>
 
 <!-- functions -->

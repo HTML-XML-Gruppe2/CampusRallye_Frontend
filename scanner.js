@@ -64,7 +64,7 @@ $(document).ready(function () {
     $("#closeMenu").click(function () {
         $("#sideMenu").css("display", "none");
     });
-    onScan("https://localhost:8080/api/object/5bc78f30ecd59032808c890e");
+    //onScan("https://localhost:8080/api/object/5bc78f30ecd59032808c890e");
 });
 
 
@@ -117,7 +117,6 @@ function onScan(content) {
                 }
             }
         }
-
 
         // display general information about the object
         let cardGeneralInformation = createCard(object.name, object.description);

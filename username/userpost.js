@@ -3,7 +3,7 @@
 function filled() {
 	console.log("Username:" + document.getElementById("username").value);
 	if (document.getElementById("username").value == "") {
-		document.getElementById("text").innerHTML = "Sie müssen einen Namen eingeben, um das Spiel zu beenden";
+		document.getElementById("text").innerHTML = "Sie müssen einen Namen eingeben, um das Spiel zu beenden!";
 	} else {
 		confirmation();
 	}
@@ -60,9 +60,9 @@ function postuser() {
 			localStorage.removeItem("visitedObjectsCampusRallye");
 		},
 		error: function (xhr) {
-			console.log(xhr)
-			console.log("error 4711");
-			alert("an error occured");
+			console.log("error");
+			localStorage.removeItem("scoreCampusRallye");
+			localStorage.removeItem("visitedObjectsCampusRallye");
 		}
 	});
 }

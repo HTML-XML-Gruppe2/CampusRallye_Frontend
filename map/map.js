@@ -14,6 +14,15 @@ canvas.style.height = canvas.style.width * sizeheight;
 canvas.width = canvas.offsetWidth;
 canvas.height = canvas.width * sizeheight;
 
+function openNav() {
+    document.getElementById("mySidebar").style.width = "100%";
+    document.getElementById("main").style.marginLeft = "100%";
+}
+
+function closeNav() {
+    document.getElementById("mySidebar").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+}
 
 //START:Knapheidesi Karte Responsive an Fenster anpassen
 window.addEventListener("resize", handleResize);

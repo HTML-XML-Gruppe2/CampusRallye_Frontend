@@ -5,8 +5,17 @@ let questionsToBeAdded = [];
 
 $(document).ready(function () {
 
-    $.get("/api/objects/basic", function (data) {
-        createList(data);
+    $.ajax({
+        url: "/api/objects/basic",
+        type: "GET",
+        contentType: "application/json",
+
+        success: function (result) {
+            createList(result);
+        },
+        error: function () {
+            createList(null);
+        }
     });
 });
 
@@ -14,10 +23,12 @@ function createList(objectArray) {
 
     $("#" + listHtmlElementId).html("");
 
-    for (var i = 0; i < objectArray.length; i++) {
+    if (objectArray != null) {
+        for (var i = 0; i < objectArray.length; i++) {
 
-        var listObject = createListObject(objectArray[i]);
-        $("#" + listHtmlElementId).append(listObject);
+            var listObject = createListObject(objectArray[i]);
+            $("#" + listHtmlElementId).append(listObject);
+        }
     }
 
     $("#" + listHtmlElementId).append(createAddObjectButton());
@@ -105,7 +116,7 @@ function hideDeleteModal() {
     $("#deleteModal").css("display", "none");
 }
 
-function showAddModal(){
+function showAddModal() {
     $("#questionTextInput").val("");
     $("#answerInputs").html("");
     $("#addModal").css("display", "block");
@@ -137,7 +148,7 @@ function createAddObjectButton() {
 
     let item = $("<li class='w3-green w3-hover-gray'> Add new object </li>");
     item.prepend($("<i class='fa fa-plus-circle'></i>"))
-    item.attr("onclick", "addNewObject('"+detailHtmlElementId+"')");
+    item.attr("onclick", "addNewObject('" + detailHtmlElementId + "')");
 
     return item;
 }
@@ -168,7 +179,7 @@ function addNewObject(detailElementId) {
     let positionData = $("<div></div>").append(positionHeading, xLabel, xInput, yLabel, yInput, divider2);
 
     let addButton = $("<button class='w3-button mainColor'></button>").text("Add Question");
-    addButton.attr("onclick","showAddModal()");
+    addButton.attr("onclick", "showAddModal()");
 
     let questions = $("<div id='questionsToBeAdded' ></div>");
     let questionData = $("<div></div>").append(addButton, questions);
@@ -178,7 +189,7 @@ function addNewObject(detailElementId) {
     $("#" + detailElementId).html(content);
 }
 
-function addQuestionField(){
+function addQuestionField() {
     let field = $("<div class='answerField'></div>")
 
     field.append($("<input style='float: left; width: 5%' class='w3-radio answerType' type='radio' name='correct' checked='true'>"));
@@ -187,14 +198,14 @@ function addQuestionField(){
     $("#answerInputs").append(field);
 }
 
-function addQuestion(){
-    
-    let question ={}
+function addQuestion() {
+
+    let question = {}
 
     question.text = $("#questionTextInput").val();
     question.answers = [];
 
-    $('.answerField').each(function(){
+    $('.answerField').each(function () {
         let answer = {}
         answer.text = $(this).find(".answerInput")[0].value
         answer.correct = $(this).find(".answerType")[0].checked
@@ -208,27 +219,27 @@ function addQuestion(){
 
     $("#questionsToBeAdded").html("");
     $("#questionsToBeAdded").append(createQuestionList(questionsToBeAdded));
-    
+
 }
 
 function saveObject() {
 
     let data = {}
     data.name = $("#titleInput").val();
-    data.description =$("#descriptionInput").val();
+    data.description = $("#descriptionInput").val();
     data.position = {};
     data.position.x = $("#xInput").val();
     data.position.y = $("#yInput").val();
     data.questions = questionsToBeAdded;
 
-    console.log(JSON.stringify(data, null ,2));
+    console.log(JSON.stringify(data, null, 2));
 
     $.ajax({
         url: "/api/objects/",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(data),
-        
+
         success: function (result) {
             questionsToBeAdded = [];
             location.reload();

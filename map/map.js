@@ -5,27 +5,34 @@ var requestURL = "https://localhost:8080/api/objects/basic";
 var Markers = new Array();
 // Map sprite
 var mapSprite = new Image();
+var sizeheight;
+
+//mapSprite sizes can only be used when the image has loaded
+mapSprite.onload = function () {
+	//Größenverhältnis
+	sizeheight = mapSprite.naturalHeight / mapSprite.naturalWidth;
+
+	// Visuelle Ausfüllung des Elternobjektes
+	canvas.style.width = '100%';
+	canvas.style.height = canvas.style.width * sizeheight;
+	// ...setzen der internen Größe
+	canvas.width = canvas.offsetWidth;
+	canvas.height = canvas.width * sizeheight;
+}
+
 var canvas = document.getElementById('Canvas');
 var context = canvas.getContext("2d");
 mapSprite.src = "map.jpg";
-//Größenverhältnis
-var sizeheight = mapSprite.naturalHeight / mapSprite.naturalWidth;
-// Visuelle Ausfüllung des Elternobjektes
-canvas.style.width = '100%';
-canvas.style.height = canvas.style.width * sizeheight;
-// ...setzen der internen Größe
-canvas.width = canvas.offsetWidth;
-canvas.height = canvas.width * sizeheight;
 
 //START:Navigationsbar öffnen und schließen
 function openNav() {
-    document.getElementById("mySidebar").style.width = "100%";
-    document.getElementById("main").style.marginLeft = "100%";
+	document.getElementById("mySidebar").style.width = "100%";
+	document.getElementById("main").style.marginLeft = "100%";
 }
 
 function closeNav() {
-    document.getElementById("mySidebar").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
+	document.getElementById("mySidebar").style.width = "0";
+	document.getElementById("main").style.marginLeft = "0";
 }
 //ENDE:Navigationsbar öffnen und schließen
 

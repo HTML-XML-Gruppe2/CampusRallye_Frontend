@@ -5,6 +5,7 @@ let questionsToBeAdded = [];
 
 $(document).ready(function () {
 
+    //load side menu
     $.ajax({
         url: "/api/objects/basic",
         type: "GET",
@@ -24,6 +25,8 @@ function createList(objectArray) {
     $("#" + listHtmlElementId).html("");
 
     if (objectArray != null) {
+
+        //create each list object
         for (var i = 0; i < objectArray.length; i++) {
 
             var listObject = createListObject(objectArray[i]);
@@ -31,6 +34,7 @@ function createList(objectArray) {
         }
     }
 
+    //if no object was found still add the button to add new objects
     $("#" + listHtmlElementId).append(createAddObjectButton());
 }
 function createListObject(object) {
@@ -47,6 +51,7 @@ function setObjectDetails(objectId) {
 
     questionsToBeAdded = [];
 
+    //when the details to a specific object was loaded, build the detail view
     $.get("/api/object/" + objectId, function (data) {
 
         let heading = createHeadingRow(data._id, data.name);
@@ -64,8 +69,10 @@ function setObjectDetails(objectId) {
         let qrCode = $("<div class='w3-container' id='code' style='margin: 15px;'></div>")
 
         let content = $("<div></div>").append(heading, description, divider, positionTable, divider2, questions, divider3, button, qrCode);
+       
         $("#" + detailHtmlElementId).html(content);
 
+        //add QR Code to View
         new QRCode(document.getElementById("code"),
             {
                 text: "https://localhost:8080/code/" + data._id,
@@ -75,6 +82,7 @@ function setObjectDetails(objectId) {
     });
 }
 
+//open extra window for printing QR Codes
 function printElem(elem) {
     var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
@@ -93,7 +101,7 @@ function printElem(elem) {
     return true;
 }
 
-
+//heading Row of of detail view with delete button
 function createHeadingRow(objectId, objectName) {
 
     let deleteFunction = "showDeleteModal('" + objectId + "','" + objectName + "')";
@@ -131,6 +139,7 @@ function hideAddModal() {
 
 function deleteObject(objectId) {
 
+    //delete the object from the database
     $.ajax({
         url: "/api/object/" + objectId,
         type: "DELETE",
@@ -153,16 +162,19 @@ function createAddObjectButton() {
     return item;
 }
 
+//build View to add new Objects
 function addNewObject(detailElementId) {
 
     let saveFunction = "saveObject()";
 
+    //build heading row
     let saveButton = $("<button id='saveButton' class='w3-button w3-blue'></button>")
     saveButton.append($("<i class='fa fa-save'></i>"));
     saveButton.attr("onclick", saveFunction);
     let headingText = $("<h3></h3>").append($("<b></b>").text("Create new object"));
     let heading = $("<div></div>").append(saveButton, headingText);
 
+    //build title and description input fields
     let titleLabel = $("<label></label").text("Title");
     let titleInput = $("<input id='titleInput' class='w3-input w3-border' type='text'>")
     let descriptionLabel = $("<label></label").text("Description");
@@ -170,6 +182,7 @@ function addNewObject(detailElementId) {
     let divider = $("<hr/>");
     let basicData = $("<div></div>").append(heading, titleLabel, titleInput, descriptionLabel, descriptionInput, divider);
 
+    //build position input fields
     let positionHeading = $("<h4></h4>").append($("<b></b>").text("Position:"));
     let xLabel = $("<label></label>").text("x");
     let xInput = $("<input id='xInput' class='w3-input w3-border positionInput' type='text'>");
@@ -178,9 +191,11 @@ function addNewObject(detailElementId) {
     let divider2 = $("<hr/>");
     let positionData = $("<div></div>").append(positionHeading, xLabel, xInput, yLabel, yInput, divider2);
 
+    // Add question button opens a modal
     let addButton = $("<button class='w3-button mainColor'></button>").text("Add Question");
     addButton.attr("onclick", "showAddModal()");
 
+    //added questions are shown below the button
     let questions = $("<div id='questionsToBeAdded' ></div>");
     let questionData = $("<div></div>").append(addButton, questions);
 
@@ -189,6 +204,7 @@ function addNewObject(detailElementId) {
     $("#" + detailElementId).html(content);
 }
 
+//add additional fields for more answers in the add Question modal
 function addQuestionField() {
     let field = $("<div class='answerField'></div>")
 
@@ -198,6 +214,7 @@ function addQuestionField() {
     $("#answerInputs").append(field);
 }
 
+// read added question from modal
 function addQuestion() {
 
     let question = {}
@@ -222,6 +239,7 @@ function addQuestion() {
 
 }
 
+//save newly added object
 function saveObject() {
 
     let data = {}
@@ -232,8 +250,7 @@ function saveObject() {
     data.position.y = $("#yInput").val();
     data.questions = questionsToBeAdded;
 
-    console.log(JSON.stringify(data, null, 2));
-
+    //post new object to API
     $.ajax({
         url: "/api/objects/",
         type: "POST",
